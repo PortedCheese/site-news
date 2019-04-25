@@ -1,0 +1,29 @@
+{
+    "name": "portedcheese/site-news",
+    "description": "News for site",
+    "type": "library",
+    "require": {
+        "portedcheese/base-settings": "dev-master",
+        "portedcheese/seo-integration": "dev-master"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Vladimir Peshkov",
+            "email": "vladimirpeshkov5@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-4": {
+            "PortedCheese\\SiteNews\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "PortedCheese\\SiteNews\\SiteNewsServiceProvider"
+            ]
+        }
+    }
+}

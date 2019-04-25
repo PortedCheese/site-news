@@ -1,0 +1,61 @@
+<?php
+
+namespace {{namespace}}Http\Controllers\Site;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use PortedCheese\SeoIntegration\Models\Meta;
+use PortedCheese\SiteNews\Models\News;
+use PortedCheese\WebflowIntegration\Models\WebflowPage;
+
+class NewsController extends Controller
+{
+    const PAGER = 20;
+
+    public function __construct()
+    {
+        $this->customTheme = NULL;
+        if (
+            class_exists(WebflowPage::class) &&
+            view()->exists('layouts.webflow.index')
+        ) {
+
+            $this->customTheme = "webflow.index";
+        }
+    }
+
+    /**
+     * Просмотр новости.
+     *
+     * @param News $news
+     * @return mixed|string
+     * @throws \Throwable
+     */
+    public function show(News $news)
+    {
+        $newsData = $news->getFullData();
+        return view("site-news::site.news.show", [
+            'customTheme' => $this->customTheme,
+            'news' => $news,
+            'pageMetas' => Meta::getByModelKey($news),
+            'gallery' => $newsData->gallery,
+            'image' => $newsData->image,
+        ]);
+    }
+
+    /**
+     * Все новости.
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function index(Request $request)
+    {
+        $query = $request->query;
+        $news = News::query()->orderBy('created_at', 'desc');
+        return view("site-news::site.news.index", [
+            'customTheme' => $this->customTheme,
+            'news' => $news->paginate(self::PAGER)->appends($request->input()),
+        ]);
+    }
+}

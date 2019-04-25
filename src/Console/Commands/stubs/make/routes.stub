@@ -1,0 +1,12 @@
+
+
+Route::group([
+    'namespace' => "Site",
+    'as' => 'site.news.',
+    'prefix' => 'news',
+], function () {
+    Route::get('/{news}', 'NewsController@show')
+        ->name('show');
+    Route::get('/', 'NewsController@index')
+        ->name('index');
+});
