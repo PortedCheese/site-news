@@ -197,7 +197,7 @@ class News extends Model
 
     /**
      * Получить галлерею.
-     * @return array
+     * @return object
      */
     public function getFullData()
     {

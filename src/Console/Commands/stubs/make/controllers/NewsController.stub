@@ -12,8 +12,12 @@ class NewsController extends Controller
 {
     const PAGER = 20;
 
+    protected $customTheme;
+
     public function __construct()
     {
+        parent::__construct();
+
         $this->customTheme = NULL;
         if (
             class_exists(WebflowPage::class) &&
@@ -51,11 +55,12 @@ class NewsController extends Controller
      */
     public function index(Request $request)
     {
-        $query = $request->query;
         $news = News::query()->orderBy('created_at', 'desc');
         return view("site-news::site.news.index", [
             'customTheme' => $this->customTheme,
             'news' => $news->paginate(self::PAGER)->appends($request->input()),
+            'pageMetas' => Meta::getByPageKey('news'),
         ]);
     }
 }
+
