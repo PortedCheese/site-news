@@ -191,7 +191,7 @@ class News extends Model
         }
         $view = view("site-news::site.news.teaser", ['news' => $this]);
         $html = $view->render();
-        Cache::forever("news:{$this->id}", $html);
+        Cache::forever("news-teaser:{$this->id}", $html);
         return $html;
     }
 

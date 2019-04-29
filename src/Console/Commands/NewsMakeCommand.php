@@ -66,7 +66,7 @@ class NewsMakeCommand extends Command
     protected function createController()
     {
         if (file_exists($controller = app_path('Http/Controllers/Site/NewsController.php'))) {
-            if (! $this->confirm("The [NewsController.php] controller aleready exists. Do you want to replace it?")) {
+            if (! $this->confirm("The [NewsController.php] controller already exists. Do you want to replace it?")) {
                 return;
             }
         }
