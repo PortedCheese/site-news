@@ -9,6 +9,12 @@
         Новости
     </a>
     <div class="dropdown-menu" aria-labelledby="user-dropdown">
+        @role('admin')
+        <a href="{{ route('admin.news.settings') }}"
+           class="dropdown-item">
+            Настройки
+        </a>
+        @endrole
         <a href="{{ route('admin.news.index') }}"
            class="dropdown-item">
             Список

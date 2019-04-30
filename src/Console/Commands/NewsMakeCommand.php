@@ -14,7 +14,8 @@ class NewsMakeCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'make:news';
+    protected $signature = 'make:news
+                    {--config : Only set config}';
 
     /**
      * The console command description.
@@ -40,13 +41,41 @@ class NewsMakeCommand extends Command
      */
     public function handle()
     {
-        $this->createDirectories();
+        if (! $this->option('config')) {
+            $this->createDirectories();
 
-        $this->createController();
+            $this->createController();
 
-        $this->expandRoutes();
+            $this->expandRoutes();
+        }
+
+        $this->makeConfig();
     }
 
+    /**
+     * Добавить настройки новостей по умолчанию.
+     */
+    public function makeConfig()
+    {
+        $config = siteconf()->get('news');
+        if (!empty($config)) {
+            if (! $this->confirm("News config already exists. Replace it?")) {
+                return;
+            }
+        }
+
+        siteconf()->save("news", [
+            'pager' => 20,
+            'path' => 'news',
+            'customTheme' => null,
+        ]);
+
+        $this->info("Config reviews added to siteconfig");
+    }
+
+    /**
+     * Добавляет роуты.
+     */
     protected function expandRoutes()
     {
         if (! $this->confirm("Do you want add routes to web.php file?")) {

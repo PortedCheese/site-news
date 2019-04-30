@@ -6,7 +6,13 @@ Route::group([
     'as' => 'admin.',
     'prefix' => 'admin',
 ], function () {
+    Route::get('news/settings', "NewsController@settings")
+        ->name('news.settings');
+    Route::put('news/settings', "NewsController@saveSettings")
+        ->name('news.settings-save');
+
     Route::resource('news', 'NewsController');
+
     Route::group([
         'prefix' => 'news/{news}',
         'as' => 'news.show.',

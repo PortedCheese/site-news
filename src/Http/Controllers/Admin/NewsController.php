@@ -5,6 +5,7 @@ namespace PortedCheese\SiteNews\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use PortedCheese\SiteNews\Http\Requests\NewsSettingsRequest;
 use PortedCheese\SiteNews\Http\Requests\NewsStoreRequest;
 use PortedCheese\SiteNews\Http\Requests\NewsUpdateRequest;
 use PortedCheese\SiteNews\Models\News;
@@ -164,5 +165,41 @@ class NewsController extends Controller
         return redirect()
             ->back()
             ->with('success', 'Изображение удалено');
+    }
+
+    public function settings()
+    {
+        $config = siteconf()->get('news');
+        $themes = config('theme.themes');
+        return view("site-news::admin.news.settings", [
+            'config' => (object) $config,
+            'themes' => $themes,
+        ]);
+    }
+
+    /**
+     * Сохранить настройки.
+     *
+     * @param NewsSettingsRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function saveSettings(NewsSettingsRequest $request)
+    {
+        $config = siteconf()->get('news');
+        foreach ($config as $key => $value) {
+            if ($request->has($key)) {
+                $config[$key] = $request->get($key);
+            }
+        }
+        if ($request->has('theme')) {
+            $config['customTheme'] = $request->get('theme');
+        }
+        else {
+            $config['customTheme'] = null;
+        }
+        siteconf()->save('news', $config);
+        return redirect()
+            ->back()
+            ->with('success', "Конфигурация обновлена");
     }
 }

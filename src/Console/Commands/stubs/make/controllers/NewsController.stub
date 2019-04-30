@@ -6,28 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use PortedCheese\SeoIntegration\Models\Meta;
 use PortedCheese\SiteNews\Models\News;
-use PortedCheese\WebflowIntegration\Models\WebflowPage;
 
 class NewsController extends Controller
 {
-    const PAGER = 20;
-
-    protected $customTheme;
-
-    public function __construct()
-    {
-        parent::__construct();
-
-        $this->customTheme = NULL;
-        if (
-            class_exists(WebflowPage::class) &&
-            view()->exists('layouts.webflow.index')
-        ) {
-
-            $this->customTheme = "webflow.index";
-        }
-    }
-
     /**
      * Просмотр новости.
      *
@@ -39,7 +20,7 @@ class NewsController extends Controller
     {
         $newsData = $news->getFullData();
         return view("site-news::site.news.show", [
-            'customTheme' => $this->customTheme,
+            'customTheme' => siteconf()->get('news.customTheme'),
             'news' => $news,
             'pageMetas' => Meta::getByModelKey($news),
             'gallery' => $newsData->gallery,
@@ -57,10 +38,13 @@ class NewsController extends Controller
     {
         $news = News::query()->orderBy('created_at', 'desc');
         return view("site-news::site.news.index", [
-            'customTheme' => $this->customTheme,
-            'news' => $news->paginate(self::PAGER)->appends($request->input()),
+            'customTheme' => siteconf()->get('news.customTheme'),
+            'news' => $news
+                ->paginate(siteconf()->get('reviews.pager'))
+                ->appends($request->input()),
             'pageMetas' => Meta::getByPageKey('news'),
         ]);
     }
 }
+
 

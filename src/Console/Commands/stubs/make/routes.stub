@@ -3,7 +3,7 @@
 Route::group([
     'namespace' => "Site",
     'as' => 'site.news.',
-    'prefix' => 'news',
+    'prefix' => siteconf()->get('news.path'),
 ], function () {
     Route::get('/{news}', 'NewsController@show')
         ->name('show');
