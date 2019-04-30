@@ -70,7 +70,7 @@ class NewsMakeCommand extends Command
             'customTheme' => null,
         ]);
 
-        $this->info("Config reviews added to siteconfig");
+        $this->info("Config news added to siteconfig");
     }
 
     /**
@@ -87,6 +87,8 @@ class NewsMakeCommand extends Command
             file_get_contents(__DIR__ . '/stubs/make/routes.stub'),
             FILE_APPEND
         );
+
+        $this->info("Routes added");
     }
 
     /**
@@ -104,6 +106,8 @@ class NewsMakeCommand extends Command
             app_path("Http/Controllers/Site/NewsController.php"),
             $this->compileControllerStub()
         );
+
+        $this->info("[NewsController.php] created");
     }
 
     /**
