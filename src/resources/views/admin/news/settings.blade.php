@@ -39,6 +39,34 @@
                 @endif
             </div>
 
+            <div class="form-check">
+                <input type="checkbox"
+                       @if($config->useOwnAdminRoutes)
+                       checked
+                       @endif
+                       class="form-check-input"
+                       value=""
+                       name="own-admin"
+                       id="own-admin">
+                <label for="own-admin">
+                    Собственные адреса для админки
+                </label>
+            </div>
+
+            <div class="form-check">
+                <input type="checkbox"
+                       @if($config->useOwnSiteRoutes)
+                       checked
+                       @endif
+                       class="form-check-input"
+                       value=""
+                       name="own-site"
+                       id="own-site">
+                <label for="own-site">
+                    Собвственные адреса для сайта
+                </label>
+            </div>
+
             <label>Тема</label>
             <div class="form-check">
                 <input class="form-check-input"

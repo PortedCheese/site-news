@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\ServiceProvider;
 use PortedCheese\SeoIntegration\Models\Meta;
 use PortedCheese\SiteNews\Console\Commands\NewsMakeCommand;
+use PortedCheese\SiteNews\Console\Commands\NewsOverrideCommand;
 use PortedCheese\SiteNews\Models\News;
 
 class SiteNewsServiceProvider extends ServiceProvider
@@ -23,7 +24,10 @@ class SiteNewsServiceProvider extends ServiceProvider
          // Копирование шаблонов.
         $this->publishes([
             __DIR__ . '/resources/views/site/news' => resource_path('views/vendor/site-news/site/news'),
-        ], 'views');
+        ], 'views-site');
+        $this->publishes([
+            __DIR__ . '/resources/views/admin/news' => resource_path('views/vendor/site-news/admin/news'),
+        ], 'views-admin');
 
         // Подгрузка роутов.
          $this->loadRoutesFrom(__DIR__ . '/routes/admin.php');
@@ -32,6 +36,7 @@ class SiteNewsServiceProvider extends ServiceProvider
         if ($this->app->runningInConsole()) {
             $this->commands([
                 NewsMakeCommand::class,
+                NewsOverrideCommand::class,
             ]);
         }
 

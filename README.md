@@ -1,6 +1,6 @@
 # Site news
 
-Интерфейс для создания новостей с галлереей. После создания у новости есть вкладки "Просмотр", "Галлерея" и "Метатеги".
+Интерфейс для создания новостей с галлереей. После создания у новости есть вкладки "Просмотр", "Галлерея" и "Метатеги". С помощью команд можно все это переписать.
 
 ## Установка
 
@@ -8,8 +8,12 @@
 
 `php artisan migrate` - Таблицы для новостей.
 
-`php artisan make:news` - Создаст контроллер и предложит дополнить файл с роутами.
+`php artisan make:news-conf` - Создает конфиг.
 
-`php artisan vendor:publish --provider="PortedCheese\SiteNews\SiteNewsServiceProvider" --tag=views` - Если нужно поменять стандартный вывод на сайт.
+`php artisan override:news --site --admin` - Создает контроллеры и предлагает добавить роуты. Это если нужно переписать логику.
+
+`php artisan vendor:publish --provider="PortedCheese\SiteNews\SiteNewsServiceProvider" --tag=views-site` - Если нужно поменять стандартный вывод на сайт.
+
+`php artisan vendor:publish --provider="PortedCheese\SiteNews\SiteNewsServiceProvider" --tag=views-site` - Если нужно поменять стандартный вывод в админку.
 
 `@includeIf("site-news::admin.news.menu")` - меню для админки.

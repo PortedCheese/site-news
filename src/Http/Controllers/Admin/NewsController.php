@@ -197,6 +197,21 @@ class NewsController extends Controller
         else {
             $config['customTheme'] = null;
         }
+
+        if ($request->has('own-admin')) {
+            $config['useOwnAdminRoutes'] = true;
+        }
+        else {
+            $config['useOwnAdminRoutes'] = false;
+        }
+
+        if ($request->has('own-site')) {
+            $config['useOwnSiteRoutes'] = true;
+        }
+        else {
+            $config['useOwnSiteRoutes'] = false;
+        }
+
         siteconf()->save('news', $config);
         return redirect()
             ->back()

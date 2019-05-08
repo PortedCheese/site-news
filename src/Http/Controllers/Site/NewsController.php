@@ -1,6 +1,6 @@
 <?php
 
-namespace {{namespace}}Http\Controllers\Site;
+namespace PortedCheese\SiteNews\Http\Controllers\Site;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
