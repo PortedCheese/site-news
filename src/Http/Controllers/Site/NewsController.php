@@ -3,9 +3,9 @@
 namespace PortedCheese\SiteNews\Http\Controllers\Site;
 
 use App\Http\Controllers\Controller;
+use App\News;
 use Illuminate\Http\Request;
 use PortedCheese\SeoIntegration\Models\Meta;
-use PortedCheese\SiteNews\Models\News;
 
 class NewsController extends Controller
 {
@@ -19,6 +19,7 @@ class NewsController extends Controller
     public function show(News $news)
     {
         $newsData = $news->getFullData();
+        debugbar()->info($news);
         return view("site-news::site.news.show", [
             'customTheme' => siteconf()->get('news.customTheme'),
             'news' => $news,

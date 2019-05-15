@@ -8,7 +8,7 @@
 
 `php artisan migrate` - Таблицы для новостей.
 
-`php artisan make:news-conf` - Создает конфиг.
+`php artisan make:news` - Создает конфиг и модель.
 
 `php artisan override:news --site --admin` - Создает контроллеры и предлагает добавить роуты. Это если нужно переписать логику.
 

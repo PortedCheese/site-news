@@ -3,15 +3,18 @@
 namespace PortedCheese\SiteNews\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Console\DetectsApplicationNamespace;
 
 class NewsMakeCommand extends Command
 {
+    use DetectsApplicationNamespace;
+
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'make:news-conf';
+    protected $signature = 'make:news';
 
     /**
      * The console command description.
@@ -21,6 +24,14 @@ class NewsMakeCommand extends Command
     protected $description = 'Command description';
 
     /**
+     * The models that need to be exported.
+     * @var array
+     */
+    protected $models = [
+        'News.stub' => 'News.php',
+    ];
+
+    /**
      * Create a new command instance.
      *
      * @return void
@@ -28,6 +39,9 @@ class NewsMakeCommand extends Command
     public function __construct()
     {
         parent::__construct();
+
+        $namespace = $this->getAppNamespace();
+        $this->namespace = str_replace("\\", '', $namespace);
     }
 
     /**
@@ -38,6 +52,7 @@ class NewsMakeCommand extends Command
     public function handle()
     {
         $this->makeConfig();
+        $this->exportModels();
     }
 
     /**
@@ -61,5 +76,41 @@ class NewsMakeCommand extends Command
         ]);
 
         $this->info("Config news added to siteconfig");
+    }
+
+    /**
+     * Create models files.
+     */
+    protected function exportModels()
+    {
+        foreach ($this->models as $key => $model) {
+            if (file_exists(app_path($model))) {
+                if (!$this->confirm("The [{$model}] model already exists. Do you want to replace it?")) {
+                    continue;
+                }
+            }
+
+            file_put_contents(
+                app_path($model),
+                $this->compileModetStub($key)
+            );
+
+            $this->info("Model [{$model}] generated successfully.");
+        }
+    }
+
+    /**
+     * Replace namespace in model.
+     *
+     * @param $model
+     * @return mixed
+     */
+    protected function compileModetStub($model)
+    {
+        return str_replace(
+            '{{namespace}}',
+            $this->namespace,
+            file_get_contents(__DIR__ . "/stubs/make/models/$model")
+        );
     }
 }

@@ -3,12 +3,12 @@
 namespace PortedCheese\SiteNews\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\News;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use PortedCheese\SiteNews\Http\Requests\NewsSettingsRequest;
 use PortedCheese\SiteNews\Http\Requests\NewsStoreRequest;
 use PortedCheese\SiteNews\Http\Requests\NewsUpdateRequest;
-use PortedCheese\SiteNews\Models\News;
 
 class NewsController extends Controller
 {

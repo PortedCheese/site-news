@@ -32,7 +32,7 @@ class NewsUpdateRequest extends FormRequest
         }
         return [
             'title' => "required|min:2|unique:news,title,{$id}",
-            'slug' => "nullable|min:2|unique:news,slug,{$id}",
+            'slug' => "min:2|unique:news,slug,{$id}",
             'main_image' => 'nullable|image',
         ];
     }

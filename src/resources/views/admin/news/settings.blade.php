@@ -63,7 +63,7 @@
                        name="own-site"
                        id="own-site">
                 <label for="own-site">
-                    Собвственные адреса для сайта
+                    Собственные адреса для сайта
                 </label>
             </div>
 

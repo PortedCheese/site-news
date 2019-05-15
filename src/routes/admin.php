@@ -32,7 +32,8 @@ if (! siteconf()->get('news.useOwnSiteRoutes')) {
     Route::group([
         'namespace' => "PortedCheese\SiteNews\Http\Controllers\Site",
         'as' => 'site.news.',
-        'prefix' => siteconf()->get('news.path'),
+        'prefix' => !empty(siteconf()->get('news.path')) ? siteconf()->get('news.path') : 'news',
+        'middleware' => ['web'],
     ], function () {
         Route::get('/{news}', 'NewsController@show')
             ->name('show');
