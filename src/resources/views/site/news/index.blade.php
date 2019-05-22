@@ -5,7 +5,7 @@
 @section('header-title', "Новости")
 
 @section('content')
-    <div class="container">
+    <div class="col-12">
         <div class="row">
             @foreach ($news as $item)
                 <div class="col-3 mb-3">
