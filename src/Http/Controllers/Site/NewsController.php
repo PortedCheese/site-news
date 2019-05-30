@@ -19,7 +19,6 @@ class NewsController extends Controller
     public function show(News $news)
     {
         $newsData = $news->getFullData();
-        debugbar()->info($news);
         return view("site-news::site.news.show", [
             'customTheme' => siteconf()->get('news.customTheme'),
             'news' => $news,
@@ -41,7 +40,7 @@ class NewsController extends Controller
         return view("site-news::site.news.index", [
             'customTheme' => siteconf()->get('news.customTheme'),
             'news' => $news
-                ->paginate(siteconf()->get('reviews.pager'))
+                ->paginate(siteconf()->get('news.pager'))
                 ->appends($request->input()),
             'pageMetas' => Meta::getByPageKey('news'),
         ]);

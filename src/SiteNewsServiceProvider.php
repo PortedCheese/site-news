@@ -3,12 +3,14 @@
 namespace PortedCheese\SiteNews;
 
 use App\Image;
+use App\News;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\ServiceProvider;
-use PortedCheese\SeoIntegration\Models\Meta;
+use PortedCheese\BaseSettings\Events\ImageUpdate;
 use PortedCheese\SiteNews\Console\Commands\NewsMakeCommand;
 use PortedCheese\SiteNews\Console\Commands\NewsOverrideCommand;
-use PortedCheese\SiteNews\Models\News;
+use PortedCheese\SiteNews\Filters\NewsShowMain;
+use PortedCheese\SiteNews\Listeners\ClearCacheOnUpdateImage;
 
 class SiteNewsServiceProvider extends ServiceProvider
 {
@@ -42,12 +44,12 @@ class SiteNewsServiceProvider extends ServiceProvider
 
         // Подключаем метатеги.
         $seo = app()->config['seo-integration.models'];
-        $seo['news'] = 'PortedCheese\SiteNews\Models\News';
+        $seo['news'] = News::class;
         app()->config['seo-integration.models'] = $seo;
 
         // Подключаем галлерею.
         $gallery = app()->config['gallery.models'];
-        $gallery['news'] = 'PortedCheese\SiteNews\Models\News';
+        $gallery['news'] = News::class;
         app()->config['gallery.models'] = $gallery;
 
         $imagecache = app()->config['imagecache.paths'];
@@ -55,39 +57,12 @@ class SiteNewsServiceProvider extends ServiceProvider
         $imagecache[] = 'storage/news/main';
         app()->config['imagecache.paths'] = $imagecache;
 
-        $this->forgetImages();
-    }
+        $imagecache = app()->config['imagecache.templates'];
+        $imagecache['news-main'] = NewsShowMain::class;
+        app()->config['imagecache.templates'] = $imagecache;
 
-    /**
-     * Еcли у новости обновили изображения, нужно почистить кэш.
-     * @param $image
-     */
-    private function checkImage($image)
-    {
-        if (empty($image->imageable)) {
-            return;
-        }
-        $morph = $image->imageable;
-        $class = get_class($morph);
-        if ($class == "PortedCheese\SiteNews\Models\News") {
-            $morph->forgetCache(TRUE);
-        }
-    }
-
-    /**
-     * Если обновили изображение, возможно надо сбросить кеш.
-     */
-    private function forgetImages()
-    {
-        Image::created(function ($image) {
-            $this->checkImage($image);
-        });
-        Image::updated(function ($image) {
-            $this->checkImage($image);
-        });
-        Image::deleting(function ($image) {
-            $this->checkImage($image);
-        });
+        // Подписаться на обновление изображений.
+        $this->app['events']->listen(ImageUpdate::class, ClearCacheOnUpdateImage::class);
     }
 
     public function register()

@@ -2,6 +2,8 @@
 
 namespace PortedCheese\SiteNews\Console\Commands;
 
+use App\Menu;
+use App\MenuItem;
 use Illuminate\Console\Command;
 use Illuminate\Console\DetectsApplicationNamespace;
 
@@ -53,6 +55,36 @@ class NewsMakeCommand extends Command
     {
         $this->makeConfig();
         $this->exportModels();
+        $this->makeMenu();
+    }
+
+    protected function makeMenu()
+    {
+        try {
+            $menu = Menu::where('key', 'admin')->firstOrFail();
+        }
+        catch (\Exception $e) {
+            return;
+        }
+
+        $title = "Новости";
+        $itemData = [
+            'title' => $title,
+            'template' => "site-news::admin.news.menu",
+            'url' => "#",
+            'class' => '@far fa-newspaper',
+            'menu_id' => $menu->id,
+        ];
+
+        try {
+            $menuItem = MenuItem::where('title', $title)->firstOrFail();
+            $menuItem->update($itemData);
+            $this->info("Элемент меню '$title' обновлен");
+        }
+        catch (\Exception $e) {
+            $menuItem = MenuItem::create($itemData);
+            $this->info("Элемент меню '$title' создан");
+        }
     }
 
     /**

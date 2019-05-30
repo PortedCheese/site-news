@@ -5,35 +5,51 @@
 @section('header-title', "{$news->title}")
 
 @section('content')
-    <div class="container">
-        <div class="row">
+    <div class="col-12 col-md-6 col-lg-4">
+        <div class="left-content sticky-top pt-4">
             @if ($image)
-                <div class="col-12 col-md-4">
-                    <img src="{{ route('imagecache', ['template' => 'medium', 'filename' => $image->file_name]) }}"
-                         class="rounded img-fluid mb-2"
-                         alt="{{ $image->name }}">
-                </div>
+                @image([
+                    'image' => $image,
+                    'template' => "sm-grid-12",
+                    'grid' => [
+                        'news-main' => 768,
+                    ],
+                    'imgClass' => 'img-fluid mb-2',
+                ])@endimage
+            @else
+                <i class="far fa-image fa-9x"></i>
             @endif
-            <div class="col order-md-first">
-                <div class="news-description description">
-                    {!! $news->description !!}
-                </div>
-                <div class="clearfix"></div>
+            <div class="under-image p-3 mt-2">
+                <div class="line mb-4"></div>
+                <p class="text-muted">
+                    <span>Дата публикации: <b>{{ date("d.m.Y", strtotime($news->created_at)) }}</b></span>
+                </p>
+                <a href="{{ route('site.news.index') }}"
+                   class="btn btn-primary btn-block mt-4 px-4 py-2">
+                    Закрыть новость
+                </a>
             </div>
         </div>
-        <div class="row justify-content-around gallery news-gallery">
-            @if($gallery)
-                @foreach ($gallery as $image)
-                    <div class="col-12 col-sm-4 col-lg-3 mt-2 text-center">
-                        <img src="{{ route('imagecache', [
-                                    'template' => 'medium',
-                                    'filename' => $image->file_name
-                                ]) }}"
-                             class="rounded mb-2"
-                             alt="{{ $image->name }}">
-                    </div>
-                @endforeach
-            @endif
-        </div>
     </div>
+    <div class="col mt-4">
+        <div class="news-description description">
+            {!! $news->description !!}
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    @if($gallery->count())
+        <div class="col-12">
+            <h3>Галерея новости</h3>
+            @gallery([
+                'gallery' => $gallery,
+                'lightbox' => 'news',
+                'template' => 'sm-grid-6',
+                'grid' => [
+                    'lg-grid-3' => 992,
+                    'md-grid-6' => 768,
+                ],
+                'imgClass' => 'img-fluid',
+            ])@endgallery
+        </div>
+    @endif
 @endsection

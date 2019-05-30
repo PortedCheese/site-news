@@ -183,13 +183,16 @@ class News extends Model
      * @return string
      * @throws \Throwable
      */
-    public function getTeaser()
+    public function getTeaser($grid = 3)
     {
         $cached = Cache::get("news-teaser:{$this->id}");
         if (!empty($cached)) {
             return $cached;
         }
-        $view = view("site-news::site.news.teaser", ['news' => $this]);
+        $view = view("site-news::site.news.teaser", [
+            'news' => $this,
+            'grid' => $grid,
+        ]);
         $html = $view->render();
         Cache::forever("news-teaser:{$this->id}", $html);
         return $html;
@@ -206,20 +209,8 @@ class News extends Model
         if (!empty($cached)) {
             return $cached;
         }
-        $gallery = [];
-        foreach ($this->images->sortBy('weight') as $image) {
-            $gallery[] = (object) [
-                'file_name' => $image->file_name,
-                'name' => $image->name,
-            ];
-        }
-        $image = FALSE;
-        if ($this->image) {
-            $image = (object) [
-                'file_name' => $this->image->file_name,
-                'name' => $this->image->name,
-            ];
-        }
+        $gallery = $this->images->sortBy('weight');
+        $image = $this->image;
         $data = (object) [
             'gallery' => $gallery,
             'image' => $image,
