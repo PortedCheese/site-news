@@ -185,7 +185,7 @@ class News extends Model
      */
     public function getTeaser($grid = 3)
     {
-        $cached = Cache::get("news-teaser:{$this->id}");
+        $cached = Cache::get("news-teaser:{$this->id}-{$grid}");
         if (!empty($cached)) {
             return $cached;
         }
@@ -225,7 +225,8 @@ class News extends Model
     public function forgetCache($full = FALSE)
     {
         if (!$full) {
-            Cache::forget("news-teaser:{$this->id}");
+            Cache::forget("news-teaser:{$this->id}-3");
+            Cache::forget("news-teaser:{$this->id}-6");
         }
         Cache::forget("news-full:{$this->id}");
     }
