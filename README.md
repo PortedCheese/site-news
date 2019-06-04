@@ -14,6 +14,6 @@
 
 `php artisan vendor:publish --provider="PortedCheese\SiteNews\SiteNewsServiceProvider" --tag=views-site` - Если нужно поменять стандартный вывод на сайт.
 
-`php artisan vendor:publish --provider="PortedCheese\SiteNews\SiteNewsServiceProvider" --tag=views-site` - Если нужно поменять стандартный вывод в админку.
+`php artisan vendor:publish --provider="PortedCheese\SiteNews\SiteNewsServiceProvider" --tag=views-admin` - Если нужно поменять стандартный вывод в админку.
 
 `@includeIf("site-news::admin.news.menu")` - меню для админки.

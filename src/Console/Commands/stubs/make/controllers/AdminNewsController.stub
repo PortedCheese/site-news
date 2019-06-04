@@ -1,6 +1,6 @@
 <?php
 
-namespace {{namespace}}Http\Controllers\News\Admin;
+namespace {{namespace}}Http\Controllers\SiteNews\Admin;
 
 use Illuminate\Http\Request;
 

@@ -2,7 +2,7 @@
 
 if (siteconf()->get('news.useOwnSiteRoutes')) {
     Route::group([
-        'namespace' => "News\Site",
+        'namespace' => "SiteNews\Site",
         'as' => 'site.news.',
         'prefix' => siteconf()->get('news.path'),
     ], function () {

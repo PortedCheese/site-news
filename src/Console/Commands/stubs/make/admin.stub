@@ -2,7 +2,7 @@
 
 if (siteconf()->get('news.useOwnAdminRoutes')) {
     Route::group([
-        'namespace' => 'News\Admin',
+        'namespace' => 'SiteNews\Admin',
         'middleware' => ['role:admin|editor'],
         'as' => 'admin.',
         'prefix' => 'admin',

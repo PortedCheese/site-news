@@ -5,11 +5,10 @@ namespace PortedCheese\SiteNews\Console\Commands;
 use App\Menu;
 use App\MenuItem;
 use Illuminate\Console\Command;
-use Illuminate\Console\DetectsApplicationNamespace;
+use PortedCheese\BaseSettings\Console\Commands\BaseConfigModelCommand;
 
-class NewsMakeCommand extends Command
+class NewsMakeCommand extends BaseConfigModelCommand
 {
-    use DetectsApplicationNamespace;
 
     /**
      * The name and signature of the console command.
@@ -33,6 +32,18 @@ class NewsMakeCommand extends Command
         'News.stub' => 'News.php',
     ];
 
+    protected $configName = "news";
+
+    protected $configValues = [
+        'pager' => 20,
+        'path' => 'news',
+        'customTheme' => null,
+        'useOwnAdminRoutes' => false,
+        'useOwnSiteRoutes' => false,
+    ];
+
+    protected $dir = __DIR__;
+
     /**
      * Create a new command instance.
      *
@@ -41,9 +52,6 @@ class NewsMakeCommand extends Command
     public function __construct()
     {
         parent::__construct();
-
-        $namespace = $this->getAppNamespace();
-        $this->namespace = str_replace("\\", '', $namespace);
     }
 
     /**
@@ -85,64 +93,5 @@ class NewsMakeCommand extends Command
             $menuItem = MenuItem::create($itemData);
             $this->info("Элемент меню '$title' создан");
         }
-    }
-
-    /**
-     * Добавить настройки новостей по умолчанию.
-     */
-    public function makeConfig()
-    {
-        $config = siteconf()->get('news');
-        if (!empty($config)) {
-            if (! $this->confirm("News config already exists. Replace it?")) {
-                return;
-            }
-        }
-
-        siteconf()->save("news", [
-            'pager' => 20,
-            'path' => 'news',
-            'customTheme' => null,
-            'useOwnAdminRoutes' => false,
-            'useOwnSiteRoutes' => false,
-        ]);
-
-        $this->info("Config news added to siteconfig");
-    }
-
-    /**
-     * Create models files.
-     */
-    protected function exportModels()
-    {
-        foreach ($this->models as $key => $model) {
-            if (file_exists(app_path($model))) {
-                if (!$this->confirm("The [{$model}] model already exists. Do you want to replace it?")) {
-                    continue;
-                }
-            }
-
-            file_put_contents(
-                app_path($model),
-                $this->compileModetStub($key)
-            );
-
-            $this->info("Model [{$model}] generated successfully.");
-        }
-    }
-
-    /**
-     * Replace namespace in model.
-     *
-     * @param $model
-     * @return mixed
-     */
-    protected function compileModetStub($model)
-    {
-        return str_replace(
-            '{{namespace}}',
-            $this->namespace,
-            file_get_contents(__DIR__ . "/stubs/make/models/$model")
-        );
     }
 }
