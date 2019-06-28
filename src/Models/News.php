@@ -101,6 +101,17 @@ class News extends Model
     }
 
     /**
+     * Изменить дату создания.
+     *
+     * @param $value
+     * @return string
+     */
+    public function getCreatedAtAttribute($value)
+    {
+        return datehelper()->changeTz($value);
+    }
+
+    /**
      * Создать метатеги по умолчанию.
      */
     public function createDefaultMetas()
