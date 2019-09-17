@@ -5,11 +5,13 @@
         @include("site-news::admin.news.show-nav", ['news' => $news])
     </div>
 
-    <div class="col-12">
-        @yield('show-content')
-    </div>
+    @yield('show-content')
 
     <div class="col-12 mt-2">
-        @include("site-news::admin.news.show-btns", ['news' => $news])
+        <div class="card">
+            <div class="card-body">
+                @include("site-news::admin.news.show-btns", ['news' => $news])
+            </div>
+        </div>
     </div>
 @endsection

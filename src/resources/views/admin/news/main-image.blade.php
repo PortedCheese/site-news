@@ -1,6 +1,6 @@
 @if($news->image)
     <img src="{{ route('imagecache', ['template' => 'small', 'filename' => $news->image->file_name]) }}"
-         class="img-thumbnail"
+         class="img-thumbnail mb-1"
          alt="{{ $news->image->name }}">
     <confirm-delete-model-button model-id="{{ $news->id }}">
         <template slot="delete">

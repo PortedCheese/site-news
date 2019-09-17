@@ -8,7 +8,7 @@
     <li class="nav-item">
         <a class="nav-link{{ $currentRoute == 'admin.news.show.gallery' ? ' active' : '' }}"
            href="{{ route('admin.news.show.gallery', ['news' => $news]) }}">
-            Галлерея
+            Галерея
         </a>
     </li>
     <li class="nav-item">

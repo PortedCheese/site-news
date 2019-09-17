@@ -80,12 +80,15 @@ class NewsMakeCommand extends BaseConfigModelCommand
             'title' => $title,
             'template' => "site-news::admin.news.menu",
             'url' => "#",
-            'class' => '@far fa-newspaper',
+            'ico' => 'far fa-newspaper',
             'menu_id' => $menu->id,
         ];
 
         try {
-            $menuItem = MenuItem::where('title', $title)->firstOrFail();
+            $menuItem = MenuItem::query()
+                ->where("menu_id", $menu->id)
+                ->where('title', $title)
+                ->firstOrFail();
             $menuItem->update($itemData);
             $this->info("Элемент меню '$title' обновлен");
         }
