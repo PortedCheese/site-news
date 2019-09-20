@@ -3,11 +3,14 @@
 namespace PortedCheese\SiteNews\Models;
 
 use App\Image;
+use App\User;
 use http\Env\Request;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use PortedCheese\SeoIntegration\Models\Meta;
+use PortedCheese\SiteNews\Http\Requests\NewsStoreRequest;
+use PortedCheese\SiteNews\Http\Requests\NewsUpdateRequest;
 
 class News extends Model
 {
@@ -23,7 +26,7 @@ class News extends Model
     {
         parent::boot();
 
-        static::deleting(function ($news) {
+        static::deleting(function (\App\News $news) {
             // Удаляем главное изображение.
             $news->clearMainImage();
             // Чистим галлерею.
@@ -34,19 +37,19 @@ class News extends Model
             $news->forgetCache();
         });
 
-        static::updated(function ($news) {
+        static::updated(function (\App\News $news) {
             // Забыть кэш.
             $news->forgetCache();
         });
 
-        static::creating(function ($news) {
+        static::creating(function (\App\News $news) {
             // Если пользователь авторизован, поставить автором.
             if (Auth::check()) {
                 $news->user_id = Auth::user()->id;
             }
         });
 
-        static::created(function ($news) {
+        static::created(function (\App\News $news) {
             // Создать метатеги по умолчанию.
             $news->createDefaultMetas();
         });
@@ -59,7 +62,7 @@ class News extends Model
      */
     public function user()
     {
-        return $this->belongsTo('App\User');
+        return $this->belongsTo(User::class);
     }
 
     /**
@@ -69,7 +72,7 @@ class News extends Model
      */
     public function image()
     {
-        return $this->belongsTo('App\Image', 'main_image');
+        return $this->belongsTo(Image::class, 'main_image');
     }
 
     /**
@@ -78,7 +81,7 @@ class News extends Model
      * @return \Illuminate\Database\Eloquent\Relations\MorphMany
      */
     public function images() {
-        return $this->morphMany('App\Image', 'imageable');
+        return $this->morphMany(Image::class, 'imageable');
     }
 
     /**
@@ -87,7 +90,7 @@ class News extends Model
      * @return \Illuminate\Database\Eloquent\Relations\MorphMany
      */
     public function metas() {
-        return $this->morphMany('PortedCheese\SeoIntegration\Models\Meta', 'metable');
+        return $this->morphMany(Meta::class, 'metable');
     }
 
     /**
@@ -109,6 +112,61 @@ class News extends Model
     public function getCreatedAtAttribute($value)
     {
         return datehelper()->changeTz($value);
+    }
+
+    /**
+     * Валидация создания новости.
+     *
+     * @param NewsStoreRequest $validator
+     * @param bool $attr
+     * @return array
+     */
+    public static function requestNewsStore(NewsStoreRequest $validator, $attr = false)
+    {
+        if ($attr) {
+            return [
+                'title' => 'Заголовок',
+                'main_image' => 'Главное изображение',
+                'description' => 'Текст новости',
+            ];
+        }
+        else {
+            return [
+                'title' => 'required|min:2|unique:news,title',
+                'slug' => 'nullable|min:2|unique:news,slug',
+                'main_image' => 'nullable|image',
+                'description' => 'required',
+            ];
+        }
+    }
+
+    /**
+     * Обновление новости.
+     *
+     * @param NewsUpdateRequest $validator
+     * @param bool $attr
+     * @return array
+     */
+    public static function requestNewsUpdate(NewsUpdateRequest $validator, $attr = false)
+    {
+        if ($attr) {
+            return [
+                'title' => 'Заголовок',
+                'main_image' => 'Главное изображение',
+            ];
+        }
+        else {
+            $id = NULL;
+            $news = $validator->route()->parameter('news', NULL);
+            if (!empty($news)) {
+                $id = $news->id;
+            }
+            return [
+                'title' => "required|min:2|unique:news,title,{$id}",
+                'slug' => "min:2|unique:news,slug,{$id}",
+                'main_image' => 'nullable|image',
+            ];
+        }
     }
 
     /**
@@ -151,7 +209,7 @@ class News extends Model
      *
      * @param $request
      */
-    public function uploadMainImage($request)
+    public function uploadMainImage(NewsUpdateRequest $request)
     {
         if ($request->hasFile('main_image')) {
             $this->clearMainImage();

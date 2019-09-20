@@ -3,8 +3,6 @@
 namespace PortedCheese\SiteNews\Listeners;
 
 use App\News;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
 class ClearCacheOnUpdateImage
 {

@@ -2,6 +2,7 @@
 
 namespace PortedCheese\SiteNews\Http\Requests;
 
+use App\News;
 use Illuminate\Foundation\Http\FormRequest;
 
 class NewsStoreRequest extends FormRequest
@@ -23,27 +24,11 @@ class NewsStoreRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            'title' => 'required|min:2|unique:news,title',
-            'slug' => 'nullable|min:2|unique:news,slug',
-            'main_image' => 'nullable|image',
-            'description' => 'required',
-        ];
-    }
-
-    public function messages()
-    {
-        return [
-            'description.required' => "Поле Текст новости обязательно для заполнения",
-        ];
+        return News::requestNewsStore($this);
     }
 
     public function attributes()
     {
-        return [
-            'title' => 'Заголовок',
-            'main_image' => 'Главное изображение',
-            'description' => 'Текст новости',
-        ];
+        return News::requestNewsStore($this, true);
     }
 }

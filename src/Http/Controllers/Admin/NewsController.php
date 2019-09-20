@@ -100,9 +100,9 @@ class NewsController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \PortedCheese\SiteNews\Models\News  $news
-     * @return \Illuminate\Http\Response
+     * @param NewsUpdateRequest $request
+     * @param News $news
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(NewsUpdateRequest $request, News $news)
     {
@@ -116,8 +116,9 @@ class NewsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \PortedCheese\SiteNews\Models\News  $news
-     * @return \Illuminate\Http\Response
+     * @param News $news
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Exception
      */
     public function destroy(News $news)
     {

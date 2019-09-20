@@ -2,9 +2,8 @@
 
 namespace PortedCheese\SiteNews\Http\Requests;
 
+use App\News;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Log;
-use PortedCheese\SiteNews\Models\News;
 
 class NewsUpdateRequest extends FormRequest
 {
@@ -25,23 +24,11 @@ class NewsUpdateRequest extends FormRequest
      */
     public function rules()
     {
-        $id = NULL;
-        $news = $this->route()->parameter('news', NULL);
-        if (!empty($news)) {
-            $id = $news->id;
-        }
-        return [
-            'title' => "required|min:2|unique:news,title,{$id}",
-            'slug' => "min:2|unique:news,slug,{$id}",
-            'main_image' => 'nullable|image',
-        ];
+        return News::requestNewsUpdate($this);
     }
 
     public function attributes()
     {
-        return [
-            'title' => 'Заголовок',
-            'main_image' => 'Главное изображение',
-        ];
+        return News::requestNewsUpdate($this, true);
     }
 }
