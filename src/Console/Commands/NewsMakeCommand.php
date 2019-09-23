@@ -15,7 +15,12 @@ class NewsMakeCommand extends BaseConfigModelCommand
      *
      * @var string
      */
-    protected $signature = 'make:news';
+    protected $signature = 'make:news
+                    {--all : Run all}
+                    {--menu : Config menu}
+                    {--models : Export models}
+                    {--controllers : Export controllers}
+                    {--config : Make config}';
 
     /**
      * The console command description.
@@ -24,25 +29,29 @@ class NewsMakeCommand extends BaseConfigModelCommand
      */
     protected $description = 'Command description';
 
+    protected $packageName = "SiteNews";
+
     /**
      * The models that need to be exported.
      * @var array
      */
-    protected $models = [
-        'News.stub' => 'News.php',
+    protected $models = ['News'];
+
+    protected $controllers = [
+        "Admin" => ["NewsController"],
+        "Site" => ["NewsController"],
     ];
 
     protected $configName = "news";
 
+    protected $configTitle = "Новости";
+
+    protected $configTemplate = "site-news::admin.settings";
+
     protected $configValues = [
         'pager' => 20,
         'path' => 'news',
-        'customTheme' => null,
-        'useOwnAdminRoutes' => false,
-        'useOwnSiteRoutes' => false,
     ];
-
-    protected $dir = __DIR__;
 
     /**
      * Create a new command instance.
@@ -56,14 +65,27 @@ class NewsMakeCommand extends BaseConfigModelCommand
 
     /**
      * Execute the console command.
-     *
-     * @return mixed
      */
     public function handle()
     {
-        $this->makeConfig();
-        $this->exportModels();
-        $this->makeMenu();
+        $all = $this->option("all");
+
+        if ($this->option("menu") || $all) {
+            $this->makeMenu();
+        }
+
+        if ($this->option("models") || $all) {
+            $this->exportModels();
+        }
+
+        if ($this->option("controllers") || $all) {
+            $this->exportControllers("Admin");
+            $this->exportControllers("Site");
+        }
+
+        if ($this->option("config") || $all) {
+            $this->makeConfig();
+        }
     }
 
     protected function makeMenu()

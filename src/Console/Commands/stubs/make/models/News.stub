@@ -1,9 +1,0 @@
-<?php
-
-namespace {{namespace}};
-
-
-class News extends \PortedCheese\SiteNews\Models\News
-{
-
-}

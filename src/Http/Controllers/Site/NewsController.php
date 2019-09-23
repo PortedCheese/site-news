@@ -20,7 +20,6 @@ class NewsController extends Controller
     {
         $newsData = $news->getFullData();
         return view("site-news::site.news.show", [
-            'customTheme' => siteconf()->get('news.customTheme'),
             'news' => $news,
             'pageMetas' => Meta::getByModelKey($news),
             'gallery' => $newsData->gallery,
@@ -38,9 +37,8 @@ class NewsController extends Controller
     {
         $news = News::query()->orderBy('created_at', 'desc');
         return view("site-news::site.news.index", [
-            'customTheme' => siteconf()->get('news.customTheme'),
             'news' => $news
-                ->paginate(siteconf()->get('news.pager'))
+                ->paginate(siteconf()->get("news", "pager"))
                 ->appends($request->input()),
             'pageMetas' => Meta::getByPageKey('news'),
         ]);

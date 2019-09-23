@@ -2,13 +2,10 @@
 
 namespace PortedCheese\SiteNews;
 
-use App\Image;
 use App\News;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\ServiceProvider;
 use PortedCheese\BaseSettings\Events\ImageUpdate;
 use PortedCheese\SiteNews\Console\Commands\NewsMakeCommand;
-use PortedCheese\SiteNews\Console\Commands\NewsOverrideCommand;
 use PortedCheese\SiteNews\Filters\NewsShowMain;
 use PortedCheese\SiteNews\Listeners\ClearCacheOnUpdateImage;
 
@@ -33,12 +30,12 @@ class SiteNewsServiceProvider extends ServiceProvider
 
         // Подгрузка роутов.
          $this->loadRoutesFrom(__DIR__ . '/routes/admin.php');
+         $this->loadRoutesFrom(__DIR__ . '/routes/web.php');
 
         // Console.
         if ($this->app->runningInConsole()) {
             $this->commands([
                 NewsMakeCommand::class,
-                NewsOverrideCommand::class,
             ]);
         }
 
