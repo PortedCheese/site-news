@@ -1,30 +1,9 @@
-<li class="nav-item dropdown">
-    <a class="nav-link dropdown-toggle{{ strstr($currentRoute, 'admin.news') !== FALSE ? ' active' : '' }}"
-       href="#"
-       id="user-dropdown"
-       role="button"
-       data-toggle="dropdown"
-       aria-haspopup="true"
-       aria-expanded="false">
+<li class="nav-item">
+    <a href="{{ route('admin.news.index') }}"
+       class="nav-link{{ strstr($currentRoute, 'admin.news') !== FALSE ? ' active' : '' }}">
         @isset($ico)
             <i class="{{ $ico }}"></i>
         @endisset
         Новости
     </a>
-    <div class="dropdown-menu" aria-labelledby="user-dropdown">
-        @role('admin')
-        <a href="{{ route('admin.news.settings') }}"
-           class="dropdown-item">
-            Настройки
-        </a>
-        @endrole
-        <a href="{{ route('admin.news.index') }}"
-           class="dropdown-item">
-            Список
-        </a>
-        <a href="{{ route('admin.news.create') }}"
-           class="dropdown-item">
-            Создать
-        </a>
-    </div>
 </li>

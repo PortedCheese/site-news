@@ -14,7 +14,7 @@
                     @csrf
 
                     <div class="form-group">
-                        <label for="title">Заголовок</label>
+                        <label for="title">Заголовок <span class="text-danger">*</span></label>
                         <input type="text"
                                id="title"
                                name="title"
@@ -43,7 +43,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="short">Краткое описание</label>
+                        <label for="short">Краткое описание <span class="text-danger">*</span></label>
                         <input type="text"
                                id="short"
                                name="short"
@@ -53,7 +53,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="description">Текст новости</label>
+                        <label for="description">Текст новости <span class="text-danger">*</span></label>
                         <textarea class="form-control{{ $errors->has('description') ? ' is-invalid' : '' }}"
                                   required
                                   name="description"

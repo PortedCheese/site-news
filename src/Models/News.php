@@ -4,8 +4,8 @@ namespace PortedCheese\SiteNews\Models;
 
 use App\Image;
 use App\User;
-use http\Env\Request;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use PortedCheese\SeoIntegration\Models\Meta;
@@ -209,7 +209,7 @@ class News extends Model
      *
      * @param $request
      */
-    public function uploadMainImage(NewsUpdateRequest $request)
+    public function uploadMainImage(Request $request)
     {
         if ($request->hasFile('main_image')) {
             $this->clearMainImage();

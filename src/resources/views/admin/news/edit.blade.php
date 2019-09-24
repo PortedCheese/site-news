@@ -62,25 +62,33 @@
                     </div>
 
                     <div class="form-group">
-                        @include("site-news::admin.news.main-image", ['news' => $news])
-                    </div>
-
-                    <div class="custom-file">
-                        <input type="file"
-                               class="custom-file-input{{ $errors->has('main_image') ? ' is-invalid' : '' }}"
-                               id="custom-file-input"
-                               lang="ru"
-                               name="main_image"
-                               aria-describedby="inputGroupMain">
-                        <label class="custom-file-label"
-                               for="custom-file-input">
-                            Выберите файл главного изображения
-                        </label>
-                        @if ($errors->has('main_image'))
-                            <div class="invalid-feedback">
-                                <strong>{{ $errors->first('main_image') }}</strong>
+                        @if($news->image)
+                            <div class="d-inline-block">
+                                <img src="{{ route('imagecache', ['template' => 'small', 'filename' => $news->image->file_name]) }}"
+                                     class="rounded mb-2"
+                                     alt="{{ $news->image->name }}">
+                                <button type="button" class="close ml-1" data-confirm="{{ "delete-form-{$news->id}" }}">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
                             </div>
                         @endif
+                        <div class="custom-file">
+                            <input type="file"
+                                   class="custom-file-input{{ $errors->has('main_image') ? ' is-invalid' : '' }}"
+                                   id="custom-file-input"
+                                   lang="ru"
+                                   name="main_image"
+                                   aria-describedby="inputGroupMain">
+                            <label class="custom-file-label"
+                                   for="custom-file-input">
+                                Выберите файл главного изображения
+                            </label>
+                            @if ($errors->has('main_image'))
+                                <div class="invalid-feedback">
+                                    <strong>{{ $errors->first('main_image') }}</strong>
+                                </div>
+                            @endif
+                        </div>
                     </div>
 
                     <div class="btn-group mt-2"
@@ -93,6 +101,20 @@
                         <a href="{{ route('admin.news.index') }}" class="btn btn-dark">К списку новостей</a>
                     </div>
                 </form>
+
+                @if($news->image)
+                    <confirm-form :id="'{{ "delete-form-{$news->id}" }}'">
+                        <template>
+                            <form action="{{ route('admin.news.show.delete-image', ['news' => $news]) }}"
+                                  id="delete-form-{{ $news->id }}"
+                                  class="btn-group"
+                                  method="post">
+                                @csrf
+                                <input type="hidden" name="_method" value="DELETE">
+                            </form>
+                        </template>
+                    </confirm-form>
+                @endif
             </div>
         </div>
     </div>
