@@ -6,14 +6,11 @@
 
 `composer require portedcheese\site-news`
 
-`php artisan migrate` - Таблицы для новостей.
+`php artisan migrate`
 
-`php artisan make:news` - Создает конфиг и модель.
-
-`php artisan override:news --site --admin` - Создает контроллеры и предлагает добавить роуты. Это если нужно переписать логику.
-
-`php artisan vendor:publish --provider="PortedCheese\SiteNews\SiteNewsServiceProvider" --tag=views-site` - Если нужно поменять стандартный вывод на сайт.
-
-`php artisan vendor:publish --provider="PortedCheese\SiteNews\SiteNewsServiceProvider" --tag=views-admin` - Если нужно поменять стандартный вывод в админку.
-
-`@includeIf("site-news::admin.news.menu")` - меню для админки.
+`php artisan make:news
+                    {--all : Run all}
+                    {--menu : Config menu}
+                    {--models : Export models}
+                    {--controllers : Export controllers}
+                    {--config : Make config}`
