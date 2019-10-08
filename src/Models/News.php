@@ -254,7 +254,8 @@ class News extends Model
      */
     public function getTeaser($grid = 3)
     {
-        $cached = Cache::get("news-teaser:{$this->id}-{$grid}");
+        $key = "news-teaser:{$this->id}-{$grid}";
+        $cached = Cache::get($key);
         if (!empty($cached)) {
             return $cached;
         }
@@ -263,7 +264,7 @@ class News extends Model
             'grid' => $grid,
         ]);
         $html = $view->render();
-        Cache::forever("news-teaser:{$this->id}", $html);
+        Cache::forever($key, $html);
         return $html;
     }
 
