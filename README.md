@@ -4,13 +4,10 @@
 
 ## Установка
 
-`composer require portedcheese\site-news`
+    php artisan migrate
 
-`php artisan migrate`
-
-`php artisan make:news
-                    {--all : Run all}
-                    {--menu : Config menu}
-                    {--models : Export models}
-                    {--controllers : Export controllers}
-                    {--config : Make config}`
+    php artisan make:news {--all : Run all}
+                          {--menu : Config menu}
+                          {--models : Export models}
+                          {--controllers : Export controllers}
+                          {--config : Make config}
