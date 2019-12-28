@@ -41,15 +41,15 @@
                         <a href="{{ route("admin.news.edit", ["news" => $news]) }}" class="btn btn-primary">
                             <i class="far fa-edit"></i>
                         </a>
-                        <button type="button" class="btn btn-danger" data-confirm="{{ "delete-form-{$news->id}" }}">
+                        <button type="button" class="btn btn-danger" data-confirm="{{ "delete-form-news-{$news->id}" }}">
                             <i class="fas fa-trash-alt"></i>
                         </button>
                     </div>
                 </div>
-                <confirm-form :id="'{{ "delete-form-{$news->id}" }}'">
+                <confirm-form :id="'{{ "delete-form-news-{$news->id}" }}'">
                     <template>
                         <form action="{{ route('admin.news.destroy', ['news' => $news]) }}"
-                              id="delete-form-{{ $news->id }}"
+                              id="delete-form-news-{{ $news->id }}"
                               class="btn-group"
                               method="post">
                             @csrf

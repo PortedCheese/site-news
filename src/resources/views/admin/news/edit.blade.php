@@ -74,18 +74,18 @@
                         @endif
                         <div class="custom-file">
                             <input type="file"
-                                   class="custom-file-input{{ $errors->has('main_image') ? ' is-invalid' : '' }}"
+                                   class="custom-file-input{{ $errors->has('image') ? ' is-invalid' : '' }}"
                                    id="custom-file-input"
                                    lang="ru"
-                                   name="main_image"
+                                   name="image"
                                    aria-describedby="inputGroupMain">
                             <label class="custom-file-label"
                                    for="custom-file-input">
                                 Выберите файл главного изображения
                             </label>
-                            @if ($errors->has('main_image'))
+                            @if ($errors->has('image'))
                                 <div class="invalid-feedback">
-                                    <strong>{{ $errors->first('main_image') }}</strong>
+                                    <strong>{{ $errors->first('image') }}</strong>
                                 </div>
                             @endif
                         </div>

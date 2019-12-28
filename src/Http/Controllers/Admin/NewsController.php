@@ -5,10 +5,8 @@ namespace PortedCheese\SiteNews\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\News;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Validator;
 use PortedCheese\SiteNews\Http\Requests\NewsSettingsRequest;
-use PortedCheese\SiteNews\Http\Requests\NewsStoreRequest;
-use PortedCheese\SiteNews\Http\Requests\NewsUpdateRequest;
 
 class NewsController extends Controller
 {
@@ -17,6 +15,7 @@ class NewsController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param Request $request
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
@@ -49,32 +48,43 @@ class NewsController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param NewsStoreRequest $request
+     * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(NewsStoreRequest $request)
+    public function store(Request $request)
     {
-        $userInput = $request->all();
-        if (empty($userInput['slug'])) {
-            $slug = Str::slug($userInput['title'], '-');
-            $buf = $slug;
-            $i = 1;
-            while (News::where('slug', $slug)->count()) {
-                $slug = $buf . '-' . $i++;
-            }
-            $userInput['slug'] = $slug;
-        }
-        $news = News::create($userInput);
-        $news->uploadMainImage($request);
+        $this->storeValidator($request->all());
+        $news = News::create($request->all());
+        $news->uploadImage($request, "news/main");
         return redirect()
             ->route("admin.news.show", ['news' => $news])
             ->with('success', 'Новость успешно создана');
     }
 
     /**
+     * Валидация сохранения.
+     *
+     * @param $data
+     */
+    protected function storeValidator($data)
+    {
+        Validator::make($data, [
+            "title" => ["required", "min:2", "max:100", "unique:news,title"],
+            "slug" => ["nullable", "min:2", "max:100", "unique:news,slug"],
+            "image" => ["nullable", "image"],
+            "description" => ["required"],
+        ], [], [
+            "title" => "Заголовок",
+            "slug" => "Адресная строка",
+            "image" => "Главное изображение",
+            "description" => "Текст новости",
+        ])->validate();
+    }
+
+    /**
      * Display the specified resource.
      *
-     * @param  \PortedCheese\SiteNews\Models\News  $news
+     * @param  News  $news
      * @return \Illuminate\Http\Response
      */
     public function show(News $news)
@@ -87,7 +97,7 @@ class NewsController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \PortedCheese\SiteNews\Models\News  $news
+     * @param  News  $news
      * @return \Illuminate\Http\Response
      */
     public function edit(News $news)
@@ -100,17 +110,40 @@ class NewsController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param NewsUpdateRequest $request
+     * @param Request $request
      * @param News $news
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(NewsUpdateRequest $request, News $news)
+    public function update(Request $request, News $news)
     {
+        $this->updateValidator($request->all(), $news);
         $news->update($request->all());
-        $news->uploadMainImage($request);
+        $news->uploadImage($request, "news/main");
         return redirect()
             ->route('admin.news.show', ['news' => $news])
             ->with('success', 'Успешно обновленно');
+    }
+
+    /**
+     * Валидация обновления.
+     *
+     * @param $data
+     * @param News $news
+     */
+    protected function updateValidator($data, News $news)
+    {
+        $id = $news->id;
+        Validator::make($data, [
+            "title" => ["required", "min:2", "max:100", "unique:news,title,{$id}"],
+            "slug" => ["nullable", "min:2", "max:100", "unique:news,slug,{$id}"],
+            "image" => ["nullable", "image"],
+            "description" => ["required"],
+        ], [], [
+            'title' => 'Заголовок',
+            "slug" => "Адресная строка",
+            'main_image' => 'Главное изображение',
+            "description" => "Текст новости",
+        ])->validate();
     }
 
     /**
@@ -162,7 +195,7 @@ class NewsController extends Controller
      */
     public function deleteImage(News $news)
     {
-        $news->clearMainImage();
+        $news->clearImage();
         return redirect()
             ->back()
             ->with('success', 'Изображение удалено');
