@@ -2,7 +2,6 @@
 
 namespace PortedCheese\SiteNews\Models;
 
-use App\Image;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
@@ -22,8 +21,8 @@ class News extends Model
         'short',
         'user_id',
     ];
-
     protected $metaKey = "news";
+    protected $imageKey = "main_image";
 
     protected static function boot()
     {
@@ -58,17 +57,6 @@ class News extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
-    }
-
-    /**
-     * Может быть изображение.
-     * (переопределено из-за названия в таблице)
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function image()
-    {
-        return $this->belongsTo(Image::class, 'main_image');
     }
 
     /**
