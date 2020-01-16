@@ -11,3 +11,11 @@
                           {--models : Export models}
                           {--controllers : Export controllers}
                           {--config : Make config}
+                          {--policies : Export and create rules}
+
+### Versions
+
+    v1.2.4:
+        - Добавлены права доступа
+    Обновление:
+        - php artisan make:news --policies

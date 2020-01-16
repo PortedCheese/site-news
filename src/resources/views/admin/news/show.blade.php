@@ -15,21 +15,25 @@
                         <img src="{{ route('imagecache', ['template' => 'small', 'filename' => $news->image->file_name]) }}"
                              class="rounded mb-2"
                              alt="{{ $news->image->name }}">
-                        <button type="button" class="close ml-1" data-confirm="{{ "delete-form-{$news->id}" }}">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+                        @can("update", \App\News::class)
+                            <button type="button" class="close ml-1" data-confirm="{{ "delete-form-{$news->id}" }}">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        @endcan
                     </div>
-                    <confirm-form :id="'{{ "delete-form-{$news->id}" }}'">
-                        <template>
-                            <form action="{{ route('admin.news.show.delete-image', ['news' => $news]) }}"
-                                  id="delete-form-{{ $news->id }}"
-                                  class="btn-group"
-                                  method="post">
-                                @csrf
-                                <input type="hidden" name="_method" value="DELETE">
-                            </form>
-                        </template>
-                    </confirm-form>
+                    @can("update", \App\News::class)
+                        <confirm-form :id="'{{ "delete-form-{$news->id}" }}'">
+                            <template>
+                                <form action="{{ route('admin.news.show.delete-image', ['news' => $news]) }}"
+                                      id="delete-form-{{ $news->id }}"
+                                      class="btn-group"
+                                      method="post">
+                                    @csrf
+                                    <input type="hidden" name="_method" value="DELETE">
+                                </form>
+                            </template>
+                        </confirm-form>
+                    @endcan
                 </div>
             </div>
         </div>

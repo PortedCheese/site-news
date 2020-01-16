@@ -1,9 +1,9 @@
-@extends('admin.layout')
+@extends('site-news::admin.news.show-layout')
 
 @section('page-title', 'Добавить новость - ')
 @section('header-title', 'Добавить новость')
 
-@section('admin')
+@section('show-content')
     <div class="col-12">
         <div class="card">
             <div class="card-body">
@@ -89,7 +89,6 @@
                     <div class="btn-group mt-2"
                          role="group">
                         <button type="submit" class="btn btn-success">Сохранить</button>
-                        <a href="{{ route('admin.news.index') }}" class="btn btn-dark">К списку новостей</a>
                     </div>
                 </form>
             </div>

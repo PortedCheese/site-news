@@ -1,9 +1,9 @@
-@extends('admin.layout')
+@extends('site-news::admin.news.show-layout')
 
 @section('page-title', 'Редактировать новость - ')
 @section('header-title', "Редактировать {$news->title}")
 
-@section('admin')
+@section('show-content')
     <div class="col-12">
         <div class="card">
             <div class="card-body">
@@ -94,11 +94,6 @@
                     <div class="btn-group mt-2"
                          role="group">
                         <button type="submit" class="btn btn-success">Обновить</button>
-                        <a href="{{ route('admin.news.show', ['news' => $news]) }}"
-                           class="btn btn-primary">
-                            Просмотр
-                        </a>
-                        <a href="{{ route('admin.news.index') }}" class="btn btn-dark">К списку новостей</a>
                     </div>
                 </form>
 

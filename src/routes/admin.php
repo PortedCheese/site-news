@@ -4,15 +4,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::group([
     'namespace' => 'App\Http\Controllers\Vendor\SiteNews\Admin',
-    'middleware' => ['web', 'role:admin|editor'],
+    'middleware' => ['web', 'management'],
     'as' => 'admin.',
     'prefix' => 'admin',
 ], function () {
-    Route::get('news/settings', "NewsController@settings")
-        ->name('news.settings');
-    Route::put('news/settings', "NewsController@saveSettings")
-        ->name('news.settings-save');
-
     Route::resource('news', 'NewsController');
 
     Route::group([

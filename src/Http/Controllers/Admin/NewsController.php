@@ -12,6 +12,12 @@ class NewsController extends Controller
 {
     const PAGER = 20;
 
+    public function __construct()
+    {
+        parent::__construct();
+        $this->authorizeResource(News::class, "news");
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -28,7 +34,7 @@ class NewsController extends Controller
         }
         $news->orderBy('created_at', 'desc');
         return view("site-news::admin.news.index", [
-            'news' => $news->paginate(self::PAGER)->appends($request->input()),
+            'newsList' => $news->paginate(self::PAGER)->appends($request->input()),
             'query' => $query,
             'per' => self::PAGER,
             'page' => $query->get('page', 1) - 1
@@ -166,9 +172,11 @@ class NewsController extends Controller
      *
      * @param News $news
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function metas(News $news)
     {
+        $this->authorize("update", $news);
         return view('site-news::admin.news.metas', [
             'news' => $news,
         ]);
@@ -179,9 +187,11 @@ class NewsController extends Controller
      *
      * @param News $news
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function gallery(News $news)
     {
+        $this->authorize("update", $news);
         return view("site-news::admin.news.gallery", [
             'news' => $news,
         ]);
@@ -192,9 +202,11 @@ class NewsController extends Controller
      *
      * @param News $news
      * @return \Illuminate\Http\RedirectResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function deleteImage(News $news)
     {
+        $this->authorize("update", $news);
         $news->clearImage();
         return redirect()
             ->back()

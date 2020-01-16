@@ -19,6 +19,7 @@ class NewsMakeCommand extends BaseConfigModelCommand
                     {--all : Run all}
                     {--menu : Config menu}
                     {--models : Export models}
+                    {--policies : Export and create rules}
                     {--controllers : Export controllers}
                     {--config : Make config}';
 
@@ -28,7 +29,6 @@ class NewsMakeCommand extends BaseConfigModelCommand
      * @var string
      */
     protected $description = 'Command description';
-
     protected $packageName = "SiteNews";
 
     /**
@@ -43,14 +43,19 @@ class NewsMakeCommand extends BaseConfigModelCommand
     ];
 
     protected $configName = "news";
-
     protected $configTitle = "Новости";
-
     protected $configTemplate = "site-news::admin.settings";
-
     protected $configValues = [
         'pager' => 20,
         'path' => 'news',
+    ];
+
+    protected $ruleRules = [
+        [
+            "title" => "Новости",
+            "slug" => "news",
+            "policy" => "NewsPolicy",
+        ],
     ];
 
     /**
@@ -86,12 +91,18 @@ class NewsMakeCommand extends BaseConfigModelCommand
         if ($this->option("config") || $all) {
             $this->makeConfig();
         }
+
+        if ($this->option("policies") || $all) {
+            $this->makeRules();
+        }
     }
 
     protected function makeMenu()
     {
         try {
-            $menu = Menu::where('key', 'admin')->firstOrFail();
+            $menu = Menu::query()
+                ->where('key', 'admin')
+                ->firstOrFail();
         }
         catch (\Exception $e) {
             return;
@@ -115,7 +126,7 @@ class NewsMakeCommand extends BaseConfigModelCommand
             $this->info("Элемент меню '$title' обновлен");
         }
         catch (\Exception $e) {
-            $menuItem = MenuItem::create($itemData);
+            MenuItem::create($itemData);
             $this->info("Элемент меню '$title' создан");
         }
     }
