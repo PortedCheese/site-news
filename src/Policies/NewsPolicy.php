@@ -49,7 +49,7 @@ class NewsPolicy
      */
     public static function defaultRules()
     {
-        return self::VIEW_ALL + self::VIEW + self::CREATE + self::UPDATE + self::DELETE;
+        return self::VIEW_ALL + self::VIEW + self::CREATE + self::UPDATE + self::DELETE + self::PUBLISH;
     }
 
     /**
