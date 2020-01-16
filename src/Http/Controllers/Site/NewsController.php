@@ -35,7 +35,7 @@ class NewsController extends Controller
      */
     public function index(Request $request)
     {
-        $news = News::query()->orderBy('created_at', 'desc');
+        $news = News::query()->where("published", 1)->orderBy('created_at', 'desc');
         return view("site-news::site.news.index", [
             'news' => $news
                 ->paginate(siteconf()->get("news", "pager"))

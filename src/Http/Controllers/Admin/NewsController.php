@@ -213,6 +213,22 @@ class NewsController extends Controller
             ->with('success', 'Изображение удалено');
     }
 
+    /**
+     * Изменить статус публикации.
+     *
+     * @param News $news
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function publish(News $news)
+    {
+        $news->published = ! $news->published;
+        $news->save();
+
+        return redirect()
+            ->back()
+            ->with("Статус публикации изменен");
+    }
+
     public function settings()
     {
         $config = siteconf()->get('news');

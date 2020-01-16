@@ -50,7 +50,7 @@
                                 <td>{{ $item->title }}</td>
                                 <td>{{ $item->slug }}</td>
                                 <td>{{ $item->short }}</td>
-                                @canany(["view", "update", "delete"], \App\News::class)
+                                @canany(["view", "update", "delete", "publish"], \App\News::class)
                                     <td>
                                         <div role="toolbar" class="btn-toolbar">
                                             <div class="btn-group btn-group-sm mr-1">
@@ -70,7 +70,25 @@
                                                     </button>
                                                 @endcan
                                             </div>
+                                            @can("publish", \App\News::class)
+                                                <button type="button" class="btn btn-{{ $item->published ? "success" : "secondary" }}" data-confirm="{{ "publish-form-{$item->id}" }}">
+                                                    <i class="fas fa-toggle-{{ $item->published ? "on" : "off" }}"></i>
+                                                </button>
+                                            @endcan
                                         </div>
+                                        @can("publish", \App\News::class)
+                                            <confirm-form :id="'{{ "publish-form-{$item->id}" }}'" text="Это изменит статус публикации новости" confirm-text="Да, изменить!">
+                                                <template>
+                                                    <form action="{{ route('admin.news.publish', ['news' => $item]) }}"
+                                                          id="publish-form-{{ $item->id }}"
+                                                          class="btn-group"
+                                                          method="post">
+                                                        @csrf
+                                                        @method("put")
+                                                    </form>
+                                                </template>
+                                            </confirm-form>
+                                        @endcan
                                         @can("delete", \App\News::class)
                                             <confirm-form :id="'{{ "delete-form-{$item->id}" }}'">
                                                 <template>

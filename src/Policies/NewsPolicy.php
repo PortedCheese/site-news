@@ -18,6 +18,7 @@ class NewsPolicy
     const VIEW = 8;
     const UPDATE = 16;
     const DELETE = 32;
+    const PUBLISH = 64;
 
     public function __construct()
     {
@@ -37,6 +38,7 @@ class NewsPolicy
             self::VIEW => "Просмотр",
             self::UPDATE => "Редактирование",
             self::DELETE => "Удаление",
+            self::PUBLISH => "Изменение публикации",
         ];
     }
 
@@ -103,5 +105,16 @@ class NewsPolicy
     public function delete(User $user)
     {
         return $user->hasPermission($this->model, self::DELETE);
+    }
+
+    /**
+     * Публикация новости.
+     *
+     * @param User $user
+     * @return bool
+     */
+    public function publish(User $user)
+    {
+        return $user->hasPermission($this->model, self::PUBLISH);
     }
 }

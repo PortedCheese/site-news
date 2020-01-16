@@ -10,6 +10,9 @@ Route::group([
 ], function () {
     Route::resource('news', 'NewsController');
 
+    Route::put("news/{news}/publish", "NewsController@publish")
+        ->name("news.publish");
+
     Route::group([
         'prefix' => 'news/{news}',
         'as' => 'news.show.',
