@@ -4,7 +4,6 @@ namespace PortedCheese\SiteNews\Console\Commands;
 
 use App\Menu;
 use App\MenuItem;
-use Illuminate\Console\Command;
 use PortedCheese\BaseSettings\Console\Commands\BaseConfigModelCommand;
 
 class NewsMakeCommand extends BaseConfigModelCommand
@@ -20,6 +19,7 @@ class NewsMakeCommand extends BaseConfigModelCommand
                     {--menu : Config menu}
                     {--models : Export models}
                     {--policies : Export and create rules}
+                    {--only-default : Create default rules}
                     {--controllers : Export controllers}
                     {--config : Make config}';
 

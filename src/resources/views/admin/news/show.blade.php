@@ -12,9 +12,13 @@
                 </div>
                 <div class="card-body">
                     <div class="d-inline-block">
-                        <img src="{{ route('imagecache', ['template' => 'small', 'filename' => $news->image->file_name]) }}"
-                             class="rounded mb-2"
-                             alt="{{ $news->image->name }}">
+                        @img([
+                            "image" => $news->image,
+                            "template" => "medium",
+                            "lightbox" => "lightGroup" . $news->id,
+                            "imgClass" => "rounded mb-2",
+                            "grid" => [],
+                        ])
                         @can("update", \App\News::class)
                             <button type="button" class="close ml-1" data-confirm="{{ "delete-form-{$news->id}" }}">
                                 <span aria-hidden="true">&times;</span>

@@ -11,10 +11,15 @@
                           {--models : Export models}
                           {--controllers : Export controllers}
                           {--config : Make config}
+                          {--only-default : Create default rules}
                           {--policies : Export and create rules}
 
 ### Versions
 
+    v1.2.8:
+        - Добавлен параметр --only-default в команду
+        - В просмотре новости в админке изменен вывод изображения
+    
     v1.2.6:
         - Добавлены права доступа
         - Добавлен статус публикации
