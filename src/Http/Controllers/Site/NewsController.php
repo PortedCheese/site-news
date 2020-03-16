@@ -3,9 +3,9 @@
 namespace PortedCheese\SiteNews\Http\Controllers\Site;
 
 use App\Http\Controllers\Controller;
+use App\Meta;
 use App\News;
 use Illuminate\Http\Request;
-use PortedCheese\SeoIntegration\Models\Meta;
 
 class NewsController extends Controller
 {
