@@ -43,12 +43,14 @@
                                     Галерея
                                 </a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link{{ $currentRoute == 'admin.news.show.metas' ? ' active' : '' }}"
-                                   href="{{ route('admin.news.show.metas', ['news' => $news]) }}">
-                                    Метатеги
-                                </a>
-                            </li>
+                            @can("viewAny", \App\Meta::class)
+                                <li class="nav-item">
+                                    <a class="nav-link{{ $currentRoute == 'admin.news.show.metas' ? ' active' : '' }}"
+                                       href="{{ route('admin.news.show.metas', ['news' => $news]) }}">
+                                        Метатеги
+                                    </a>
+                                </li>
+                            @endcan
                         @endcan
                         @can("delete", \App\News::class)
                             <li class="nav-item">

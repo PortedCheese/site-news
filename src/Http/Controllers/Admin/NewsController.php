@@ -3,10 +3,10 @@
 namespace PortedCheese\SiteNews\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Meta;
 use App\News;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use PortedCheese\SiteNews\Http\Requests\NewsSettingsRequest;
 
 class NewsController extends Controller
 {
@@ -177,6 +177,7 @@ class NewsController extends Controller
     public function metas(News $news)
     {
         $this->authorize("update", $news);
+        $this->authorize("viewAny", Meta::class);
         return view('site-news::admin.news.metas', [
             'news' => $news,
         ]);
