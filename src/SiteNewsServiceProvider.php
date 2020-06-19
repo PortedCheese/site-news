@@ -29,8 +29,11 @@ class SiteNewsServiceProvider extends ServiceProvider
         ], 'views-admin');
 
         // Подгрузка роутов.
-         $this->loadRoutesFrom(__DIR__ . '/routes/admin.php');
-         $this->loadRoutesFrom(__DIR__ . '/routes/web.php');
+        if (base_config()->get("news", "route-name", false) && file_exists(base_path("routes/" . base_config()->get("news", "route-name", false) . ".php"))) {
+            $this->loadRoutesFrom(base_path("routes/" . base_config()->get("news", "route-name", false) . ".php"));
+        }
+        $this->loadRoutesFrom(__DIR__ . '/routes/admin.php');
+        $this->loadRoutesFrom(__DIR__ . '/routes/web.php');
 
         // Console.
         if ($this->app->runningInConsole()) {

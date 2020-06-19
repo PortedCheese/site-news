@@ -38,7 +38,7 @@ class NewsController extends Controller
         $news = News::query()->where("published", 1)->orderBy('created_at', 'desc');
         return view("site-news::site.news.index", [
             'news' => $news
-                ->paginate(siteconf()->get("news", "pager"))
+                ->paginate(base_config()->get("news", "pager", 20))
                 ->appends($request->input()),
             'pageMetas' => Meta::getByPageKey('news'),
         ]);
