@@ -6,13 +6,14 @@ use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
-use PortedCheese\BaseSettings\Traits\HasImage;
-use PortedCheese\BaseSettings\Traits\HasSlug;
-use PortedCheese\SeoIntegration\Traits\HasMetas;
+use PortedCheese\BaseSettings\Traits\ShouldGallery;
+use PortedCheese\BaseSettings\Traits\ShouldImage;
+use PortedCheese\BaseSettings\Traits\ShouldSlug;
+use PortedCheese\SeoIntegration\Traits\ShouldMetas;
 
 class News extends Model
 {
-    use HasImage, HasSlug, HasMetas;
+    use ShouldImage, ShouldSlug, ShouldMetas, ShouldGallery;
 
     protected $fillable = [
         'title',
@@ -24,12 +25,9 @@ class News extends Model
     protected $metaKey = "news";
     protected $imageKey = "main_image";
 
-    protected static function boot()
+    protected static function booting()
     {
-        parent::boot();
-        static::slugBoot();
-        static::imageBoot();
-        static::metasBoot();
+        parent::booting();
 
         static::creating(function (\App\News $news) {
             // Если пользователь авторизован, поставить автором.

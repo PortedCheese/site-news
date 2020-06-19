@@ -55,7 +55,6 @@
                     <div class="form-group">
                         <label for="description">Текст новости <span class="text-danger">*</span></label>
                         <textarea class="form-control{{ $errors->has('description') ? ' is-invalid' : '' }}"
-                                  required
                                   name="description"
                                   id="ckDescription"
                                   rows="3">
