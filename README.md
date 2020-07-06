@@ -15,6 +15,10 @@
                           {--policies : Export and create rules}
 
 ### Versions
+    v1.3.4:
+        - Зименены данные кэша для тизера.
+    Обновление:
+        - php artisan cache:clear
     
     v1.3.3:
         - Ограничение вкладки мета по правам

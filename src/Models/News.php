@@ -77,17 +77,16 @@ class News extends Model
     public function getTeaser($grid = 3)
     {
         $key = "news-teaser:{$this->id}-{$grid}";
-        $cached = Cache::get($key);
-        if (!empty($cached)) {
-            return $cached;
-        }
+        $model = $this;
+        $news = Cache::rememberForever($key, function () use ($model) {
+            $image = $model->image;
+            return $model;
+        });
         $view = view("site-news::site.news.teaser", [
-            'news' => $this,
+            'news' => $news,
             'grid' => $grid,
         ]);
-        $html = $view->render();
-        Cache::forever($key, $html);
-        return $html;
+        return $view->render();
     }
 
     /**
