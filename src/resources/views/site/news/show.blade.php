@@ -22,7 +22,7 @@
             <div class="under-image p-3 mt-2">
                 <div class="line mb-4"></div>
                 <p class="text-muted">
-                    <span>Дата публикации: <b>{{ date("d.m.Y", strtotime($news->created_at)) }}</b></span>
+                    <span>Дата публикации: <b>{{ date("d.m.Y", strtotime($news->published_at)) }}</b></span>
                 </p>
                 <a href="{{ route('site.news.index') }}"
                    class="btn btn-primary btn-block mt-4 px-4 py-2">

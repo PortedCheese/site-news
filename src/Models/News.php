@@ -29,21 +29,22 @@ class News extends Model
     {
         parent::booting();
 
-        static::creating(function (\App\News $news) {
+        static::creating(function (\App\News $model) {
             // Если пользователь авторизован, поставить автором.
             if (Auth::check()) {
-                $news->user_id = Auth::user()->id;
+                $model->user_id = Auth::user()->id;
             }
+            $model->published_at = now();
         });
 
-        static::updated(function (\App\News $news) {
+        static::updated(function (\App\News $model) {
             // Забыть кэш.
-            $news->forgetCache();
+            $model->forgetCache();
         });
 
-        static::deleting(function (\App\News $news) {
+        static::deleting(function (\App\News $model) {
             // Забыть кэш.
-            $news->forgetCache();
+            $model->forgetCache();
         });
     }
 
@@ -64,6 +65,17 @@ class News extends Model
      * @return string
      */
     public function getCreatedAtAttribute($value)
+    {
+        return datehelper()->changeTz($value);
+    }
+
+    /**
+     * Изменить дату создания.
+     *
+     * @param $value
+     * @return string
+     */
+    public function getPublishedAtAttribute($value)
     {
         return datehelper()->changeTz($value);
     }

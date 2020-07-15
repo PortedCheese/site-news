@@ -1,9 +1,10 @@
-@extends('site-news::admin.news.show-layout')
+@extends('admin.layout')
 
 @section('page-title', 'Новость - ')
 @section('header-title', "Новость {$news->title}")
 
-@section('show-content')
+@section('admin')
+    @include("site-news::admin.news.pills")
     @if($news->image)
         <div class="col-12 col-md-4">
             <div class="card">
@@ -43,7 +44,7 @@
         </div>
     @endif
     <div class="col-12 col-md-8">
-        <div class="card">
+        <div class="card mb-2">
             <div class="card-header">
                 <h5 class="card-title">Короткое описание</h5>
             </div>
@@ -51,7 +52,7 @@
                 {{ $news->short }}
             </div>
         </div>
-        <div class="card">
+        <div class="card mb-2">
             <div class="card-header">
                 <h5 class="card-title">Описание</h5>
             </div>

@@ -1,9 +1,10 @@
-@extends('site-news::admin.news.show-layout')
+@extends('admin.layout')
 
 @section('page-title', 'Редактировать новость - ')
 @section('header-title', "Редактировать {$news->title}")
 
-@section('show-content')
+@section('admin')
+    @include("site-news::admin.news.pills")
     <div class="col-12">
         <div class="card">
             <div class="card-body">

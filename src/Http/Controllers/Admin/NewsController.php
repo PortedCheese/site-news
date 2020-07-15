@@ -222,7 +222,7 @@ class NewsController extends Controller
      */
     public function publish(News $news)
     {
-        $news->published = ! $news->published;
+        $news->published_at = $news->published_at ? null : now();
         $news->save();
 
         return redirect()

@@ -1,12 +1,13 @@
-@extends('site-news::admin.news.show-layout')
+@extends('admin.layout')
 
 @section('page-title', 'Новости - ')
 @section('header-title', 'Новости')
 
-@section('show-content')
+@section('admin')
+    @include("site-news::admin.news.pills")
     <div class="col-12">
         <div class="card">
-            <div class="card-body">
+            <div class="card-header">
                 <form action="{{ route($currentRoute) }}"
                       class="form-inline"
                       method="get">
@@ -22,11 +23,6 @@
                     <a href="{{ route($currentRoute) }}" class="btn btn-secondary mb-2">Сбросить</a>
                 </form>
             </div>
-        </div>
-    </div>
-
-    <div class="col-12">
-        <div class="card">
             <div class="card-body">
                 <div class="table-responsive">
                     <table class="table">
@@ -71,9 +67,11 @@
                                                 @endcan
                                             </div>
                                             @can("publish", \App\News::class)
-                                                <button type="button" class="btn btn-{{ $item->published ? "success" : "secondary" }}" data-confirm="{{ "publish-form-{$item->id}" }}">
-                                                    <i class="fas fa-toggle-{{ $item->published ? "on" : "off" }}"></i>
-                                                </button>
+                                                <div class="btn-group btn-group-sm">
+                                                    <button type="button" class="btn btn-{{ $item->published_at ? "success" : "secondary" }}" data-confirm="{{ "publish-form-{$item->id}" }}">
+                                                        <i class="fas fa-toggle-{{ $item->published_at ? "on" : "off" }}"></i>
+                                                    </button>
+                                                </div>
                                             @endcan
                                         </div>
                                         @can("publish", \App\News::class)
