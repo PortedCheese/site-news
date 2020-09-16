@@ -18,10 +18,12 @@ class ChangePublishedInNewsTable extends Migration
                 ->nullable()
                 ->comment("Дата публикации");
         });
-        foreach (\App\News::all() as $item) {
-            if ($item->published) {
-                $item->published_at = $item->updated_at;
-                $item->save();
+        if (class_exists(\App\News::class)) {
+            foreach (\App\News::all() as $item) {
+                if ($item->published) {
+                    $item->published_at = $item->updated_at;
+                    $item->save();
+                }
             }
         }
         Schema::table('news', function (Blueprint $table) {
@@ -42,9 +44,11 @@ class ChangePublishedInNewsTable extends Migration
                 ->after("slug")
                 ->comment("Статус публикации");
         });
-        foreach (\App\News::all() as $item) {
-            $item->published = ! empty($item->published_at) ? 1 : 0;
-            $item->save();
+        if (class_exists(\App\News::class)) {
+            foreach (\App\News::all() as $item) {
+                $item->published = ! empty($item->published_at) ? 1 : 0;
+                $item->save();
+            }
         }
         Schema::table('news', function (Blueprint $table) {
             $table->dropColumn("published_at");
