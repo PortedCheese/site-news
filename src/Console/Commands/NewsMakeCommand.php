@@ -29,6 +29,7 @@ class NewsMakeCommand extends BaseConfigModelCommand
      * @var string
      */
     protected $description = 'Command description';
+    protected $vendorName = 'PortedCheese';
     protected $packageName = "SiteNews";
 
     /**
