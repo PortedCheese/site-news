@@ -2,6 +2,7 @@
 
 namespace PortedCheese\SiteNews\Models;
 
+use App\NewsTag;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
@@ -45,6 +46,8 @@ class News extends Model
         static::deleting(function (\App\News $model) {
             // Забыть кэш.
             $model->forgetCache();
+
+            $model->tags()->sync([]);
         });
     }
 
@@ -114,9 +117,11 @@ class News extends Model
         }
         $gallery = $this->images->sortBy('weight');
         $image = $this->image;
+        $tags = $this->tags;
         $data = (object) [
             'gallery' => $gallery,
             'image' => $image,
+            "tags" => $tags,
         ];
         Cache::forever($cacheKey, $data);
         return $data;
@@ -132,5 +137,46 @@ class News extends Model
             Cache::forget("news-teaser:{$this->id}-6");
         }
         Cache::forget("news-full:{$this->id}");
+    }
+
+    /**
+     * Теги новости
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     *
+     */
+    public function tags()
+    {
+        return $this->belongsToMany(NewsTag::class);
+    }
+
+    /**
+     * Есть ли тег у новости
+     *
+     * @param $id
+     * @return mixed
+     */
+
+    public function hasTag($id)
+    {
+        return $this->tags->where('id',$id)->count();
+    }
+
+    /**
+     * Обновить теги новости.
+     *
+     * @param $userInput
+     */
+    public function updateTags($userInput, $new = false)
+    {
+        $tagIds = [];
+        foreach ($userInput as $key => $value) {
+            if (strstr($key, "check-") == false) {
+                continue;
+            }
+            $tagIds[] = $value;
+        }
+        $this->tags()->sync($tagIds);
+        $this->forgetCache();
     }
 }

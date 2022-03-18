@@ -24,4 +24,18 @@ Route::group([
         Route::delete('delete-image', 'NewsController@deleteImage')
             ->name('delete-image');
     });
+
+
+    if (base_config()->get("news", "useSections", false))
+    {
+        // рубрики новостей
+        Route::resource('newsSections', 'NewsSectionController');
+
+        // приоритет
+        Route::get('newsSections/list/priority', 'NewsSectionController@priority')
+            ->name("newsSections.priority");
+
+    }
+
+
 });

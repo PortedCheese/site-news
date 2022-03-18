@@ -8,6 +8,7 @@ use PortedCheese\BaseSettings\Events\ImageUpdate;
 use PortedCheese\SiteNews\Console\Commands\NewsMakeCommand;
 use PortedCheese\SiteNews\Filters\NewsShowMain;
 use PortedCheese\SiteNews\Listeners\ClearCacheOnUpdateImage;
+use PortedCheese\SiteNews\Models\NewsTag;
 
 class SiteNewsServiceProvider extends ServiceProvider
 {
@@ -27,11 +28,15 @@ class SiteNewsServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__ . '/resources/views/admin/news' => resource_path('views/vendor/site-news/admin/news'),
         ], 'views-admin');
+        $this->publishes([
+            __DIR__ . '/resources/views/admin/newsSections' => resource_path('views/vendor/site-news/admin/newsSections'),
+        ], 'views-admin');
 
         // Подгрузка роутов.
         if (base_config()->get("news", "route-name", false) && file_exists(base_path("routes/" . base_config()->get("news", "route-name", false) . ".php"))) {
             $this->loadRoutesFrom(base_path("routes/" . base_config()->get("news", "route-name", false) . ".php"));
         }
+
         $this->loadRoutesFrom(__DIR__ . '/routes/admin.php');
         $this->loadRoutesFrom(__DIR__ . '/routes/web.php');
 

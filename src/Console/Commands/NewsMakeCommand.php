@@ -36,10 +36,10 @@ class NewsMakeCommand extends BaseConfigModelCommand
      * The models that need to be exported.
      * @var array
      */
-    protected $models = ['News'];
+    protected $models = ['News', 'NewsSection'];
 
     protected $controllers = [
-        "Admin" => ["NewsController"],
+        "Admin" => ["NewsController", "NewsSectionController"],
         "Site" => ["NewsController"],
     ];
 
@@ -56,6 +56,10 @@ class NewsMakeCommand extends BaseConfigModelCommand
             "title" => "Новости",
             "slug" => "news",
             "policy" => "NewsPolicy",
+        ],[
+            "title" => "Секции Новостей",
+            "slug" => "news-sections",
+            "policy" => "NewsSectionPolicy",
         ],
     ];
 

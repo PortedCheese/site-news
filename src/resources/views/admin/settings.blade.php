@@ -13,6 +13,17 @@
 </div>
 
 <div class="form-group">
+    <div class="custom-control custom-checkbox">
+        <input type="checkbox"
+               class="custom-control-input"
+               id="useSections"
+               {{ (! count($errors->all()) &&  base_config()->get($name, "useSections", false)) || old("data-useSections") ? "checked" : "" }}
+               name="data-useSections">
+        <label class="custom-control-label" for="useSections">Подключить секции</label>
+    </div>
+</div>
+
+<div class="form-group">
     <label for="data-pager">Пагинация</label>
     <input type="number"
            min="5"
