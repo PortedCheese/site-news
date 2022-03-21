@@ -17,7 +17,7 @@
                 <div id="collapse-news-sections-menu" class="collapse{{ $active ? " show" : "" }}" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a href="{{ route('admin.news.index') }}"
-                           class="collapse-item{{ $currentRoute == "admin.news.index" ? " active" : "" }}">
+                           class="collapse-item{{ strstr($currentRoute, 'admin.news.') !== FALSE  ? " active" : "" }}">
                             <span>Новости</span>
                         </a>
                         <a href="{{ route('admin.newsSections.index') }}"
