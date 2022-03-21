@@ -8,6 +8,33 @@ Route::group([
     'as' => 'admin.',
     'prefix' => 'admin',
 ], function () {
+
+    if (base_config()->get("news", "useSections", false))
+    {
+        // рубрики новостей
+        Route::get('/news/sections', 'NewsSectionController@index')
+            ->name('newsSections.index');
+        Route::get('/news/sections/create', 'NewsSectionController@create')
+            ->name('newsSections.create');
+        Route::post('/news/sections/store', 'NewsSectionController@store')
+            ->name('newsSections.store');
+        Route::get('/news/sections/{newsSection}', 'NewsSectionController@show')
+            ->name('newsSections.show');
+        Route::get('/news/sections/{newsSection}/edit', 'NewsSectionController@edit')
+            ->name('newsSections.edit');
+        Route::put('/news/sections/{newsSection}', 'NewsSectionController@update')
+            ->name('newsSections.update');
+        Route::delete('/news/sections/{newsSection}', 'NewsSectionController@destroy')
+            ->name('newsSections.destroy');
+
+        // Route::resource('newsSections', 'NewsSectionController',);
+
+        // приоритет
+        Route::get('news/sections/list/priority', 'NewsSectionController@priority')
+            ->name("newsSections.priority");
+
+    }
+
     Route::resource('news', 'NewsController');
 
     Route::put("news/{news}/publish", "NewsController@publish")
@@ -26,16 +53,7 @@ Route::group([
     });
 
 
-    if (base_config()->get("news", "useSections", false))
-    {
-        // рубрики новостей
-        Route::resource('newsSections', 'NewsSectionController');
 
-        // приоритет
-        Route::get('newsSections/list/priority', 'NewsSectionController@priority')
-            ->name("newsSections.priority");
-
-    }
 
 
 });
