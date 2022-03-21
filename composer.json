@@ -3,8 +3,8 @@
     "description": "News for site",
     "type": "library",
     "require": {
-        "portedcheese/base-settings": "@dev",
-        "portedcheese/seo-integration": "@dev"
+        "portedcheese/base-settings": "^3.0.3",
+        "portedcheese/seo-integration": "^1.4"
     },
     "license": "MIT",
     "authors": [
