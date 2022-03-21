@@ -88,10 +88,18 @@ class NewsSectionController extends Controller
      * @param  NewsSection  $newsSection
      * @return \Illuminate\Http\Response
      */
-    public function show(NewsSection $newsSection)
+    public function show(NewsSection $newsSection, Request $request)
     {
+        $query = $request->query;
+
+        $news = $newsSection
+            ->news()->orderBy('created_at','desc')
+            ->paginate(self::PAGER)->appends($request->input());
+
         return view("site-news::admin.newsSections.show", [
             'newsSection' => $newsSection,
+            'news' => $news,
+            'page' => $query->get('page', 1) - 1,
         ]);
     }
 
@@ -151,15 +159,10 @@ class NewsSectionController extends Controller
      */
     public function destroy(NewsSection $newsSection)
     {
-        if (! $newsSection->news()->firstOrFail()) {
-            $newsSection->delete();
-            return redirect()
-                ->route("admin.newsSections.index")
-                ->with('success', 'Успешно удалено');
-        }
+        $newsSection->delete();
         return redirect()
             ->route("admin.newsSections.index")
-            ->with('success', 'Секция не может быть удалена, есть объекты');
+            ->with('success', 'Успешно удалено');
     }
 
 

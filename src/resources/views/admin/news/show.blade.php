@@ -60,6 +60,18 @@
                 {!! $news->description !!}
             </div>
         </div>
+        @if (base_config()->get("news", "useSections", false))
+            <div class="card mb-2">
+                <div class="card-header">
+                    <h5 class="card-title">Секции</h5>
+                </div>
+                <div class="card-body">
+                    @foreach ($news->sections as $section)
+                        <span class="badge badge-pill badge-secondary">{{ $section->title }}</span>
+                    @endforeach
+                </div>
+            </div>
+        @endif
     </div>
     <div class="col-12 d-none">
         <div>

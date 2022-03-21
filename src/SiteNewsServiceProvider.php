@@ -8,6 +8,7 @@ use PortedCheese\BaseSettings\Events\ImageUpdate;
 use PortedCheese\SiteNews\Console\Commands\NewsMakeCommand;
 use PortedCheese\SiteNews\Filters\NewsShowMain;
 use PortedCheese\SiteNews\Listeners\ClearCacheOnUpdateImage;
+use PortedCheese\SiteNews\Models\NewsSection;
 use PortedCheese\SiteNews\Models\NewsTag;
 
 class SiteNewsServiceProvider extends ServiceProvider

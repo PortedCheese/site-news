@@ -7,6 +7,7 @@ use App\Meta;
 use App\News;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use PortedCheese\SiteNews\Models\NewsSection;
 
 class NewsController extends Controller
 {
@@ -28,6 +29,7 @@ class NewsController extends Controller
     {
         $query = $request->query;
         $news = News::query();
+
         if ($query->get('title')) {
             $title = trim($query->get('title'));
             $news->where('title', 'LIKE', "%$title%");
@@ -48,7 +50,14 @@ class NewsController extends Controller
      */
     public function create()
     {
-        return view("site-news::admin.news.create");
+        if (base_config()->get("news", "useSections", false)) {
+            $newsSections = NewsSection::all()->sortBy('priority');
+        }
+        else $newsSections = [];
+
+        return view("site-news::admin.news.create", [
+            'sections' =>  $newsSections,
+        ]);
     }
 
     /**
@@ -62,6 +71,7 @@ class NewsController extends Controller
         $this->storeValidator($request->all());
         $news = News::create($request->all());
         $news->uploadImage($request, "news/main");
+        $news->updateSections($request->all(), true);
         return redirect()
             ->route("admin.news.show", ['news' => $news])
             ->with('success', 'Новость успешно создана');
@@ -95,6 +105,7 @@ class NewsController extends Controller
      */
     public function show(News $news)
     {
+
         return view("site-news::admin.news.show", [
             'news' => $news,
         ]);
@@ -108,8 +119,14 @@ class NewsController extends Controller
      */
     public function edit(News $news)
     {
+        if (base_config()->get("news", "useSections", false)) {
+            $newsSections = NewsSection::all()->sortBy('priority');
+        }
+        else $newsSections = [];
+
         return view("site-news::admin.news.edit", [
             'news' => $news,
+            'sections' =>  $newsSections,
         ]);
     }
 
@@ -125,6 +142,8 @@ class NewsController extends Controller
         $this->updateValidator($request->all(), $news);
         $news->update($request->all());
         $news->uploadImage($request, "news/main");
+        $news->updateSections($request->all(), true);
+
         return redirect()
             ->route('admin.news.show', ['news' => $news])
             ->with('success', 'Успешно обновленно');

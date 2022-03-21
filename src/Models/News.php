@@ -2,7 +2,7 @@
 
 namespace PortedCheese\SiteNews\Models;
 
-use App\NewsTag;
+use App\NewsSection;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
@@ -47,7 +47,7 @@ class News extends Model
             // Забыть кэш.
             $model->forgetCache();
 
-            $model->tags()->sync([]);
+            $model->sections()->sync([]);
         });
     }
 
@@ -117,11 +117,11 @@ class News extends Model
         }
         $gallery = $this->images->sortBy('weight');
         $image = $this->image;
-        $tags = $this->tags;
+        $sections = $this->sections;
         $data = (object) [
             'gallery' => $gallery,
             'image' => $image,
-            "tags" => $tags,
+            "sections" => $sections,
         ];
         Cache::forever($cacheKey, $data);
         return $data;
@@ -140,43 +140,43 @@ class News extends Model
     }
 
     /**
-     * Теги новости
+     * Секции новости
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      *
      */
-    public function tags()
+    public function sections()
     {
-        return $this->belongsToMany(NewsTag::class);
+        return $this->belongsToMany(NewsSection::class);
     }
 
     /**
-     * Есть ли тег у новости
+     * Есть ли секция у новости
      *
      * @param $id
      * @return mixed
      */
 
-    public function hasTag($id)
+    public function hasSection($id)
     {
-        return $this->tags->where('id',$id)->count();
+        return $this->sections->where('id',$id)->count();
     }
 
     /**
-     * Обновить теги новости.
+     * Обновить секции новости.
      *
      * @param $userInput
      */
-    public function updateTags($userInput, $new = false)
+    public function updateSections($userInput, $new = false)
     {
-        $tagIds = [];
+        $sectionIds = [];
         foreach ($userInput as $key => $value) {
             if (strstr($key, "check-") == false) {
                 continue;
             }
-            $tagIds[] = $value;
+            $sectionIds[] = $value;
         }
-        $this->tags()->sync($tagIds);
+        $this->sections()->sync($sectionIds);
         $this->forgetCache();
     }
 }

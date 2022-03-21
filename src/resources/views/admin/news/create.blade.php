@@ -86,6 +86,27 @@
                         @endif
                     </div>
 
+                    <div class="form-group">
+                        @isset($sections)
+                            @foreach($sections as $section)
+                                @if($loop->first)
+                                    <label>Секции</label>
+                                @endif
+                                <div class="custom-control custom-checkbox">
+                                    <input class="custom-control-input"
+                                           type="checkbox"
+                                           {{ old('check-' . $section->id) ? "checked" : "" }}
+                                           value="{{ $section->id }}"
+                                           id="check-{{ $section->id }}"
+                                           name="check-{{ $section->id }}">
+                                    <label class="custom-control-label" for="check-{{ $section->id }}">
+                                        {{ $section->title }}
+                                    </label>
+                                </div>
+                            @endforeach
+                        @endisset
+                    </div>
+
                     <div class="btn-group mt-2"
                          role="group">
                         <button type="submit" class="btn btn-success">Сохранить</button>
