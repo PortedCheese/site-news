@@ -19,6 +19,13 @@
             @else
                 <i class="far fa-image fa-9x"></i>
             @endif
+
+                <div class="under-image px-3 mt-2">
+                    <div class="row">
+                        @include("site-news::site.news.sections.sections-btns", ["sections" => $news->sections])
+                    </div>
+                </div>
+
             <div class="under-image p-3 mt-2">
                 <div class="line mb-4"></div>
                 <p class="text-muted">

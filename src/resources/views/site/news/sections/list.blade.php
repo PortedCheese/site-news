@@ -1,0 +1,1 @@
+@include("site-news::site.news.sections.sections-btns", ["sections" => $sections])

@@ -50,14 +50,8 @@ class NewsController extends Controller
      */
     public function create()
     {
-        if (base_config()->get("news", "useSections", false)) {
-            $newsSections = NewsSection::all()->sortBy('priority');
-        }
-        else $newsSections = [];
 
-        return view("site-news::admin.news.create", [
-            'sections' =>  $newsSections,
-        ]);
+        return view("site-news::admin.news.create");
     }
 
     /**
@@ -119,14 +113,8 @@ class NewsController extends Controller
      */
     public function edit(News $news)
     {
-        if (base_config()->get("news", "useSections", false)) {
-            $newsSections = NewsSection::all()->sortBy('priority');
-        }
-        else $newsSections = [];
-
         return view("site-news::admin.news.edit", [
             'news' => $news,
-            'sections' =>  $newsSections,
         ]);
     }
 

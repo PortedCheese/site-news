@@ -33,6 +33,21 @@ class SiteNewsServiceProvider extends ServiceProvider
             __DIR__ . '/resources/views/admin/newsSections' => resource_path('views/vendor/site-news/admin/newsSections'),
         ], 'views-admin');
 
+        view()->composer([
+            "site-news::admin.news.create",
+            "site-news::admin.news.edit",
+            "site-news::site.news.sections.list",
+
+        ], function ($view){
+
+            if (base_config()->get("news", "useSections", false)) {
+                $newsSections = NewsSection::all()->sortBy('priority');
+            }
+            else $newsSections = [];
+
+            $view->with("sections", $newsSections);
+        });
+
         // Подгрузка роутов.
         if (base_config()->get("news", "route-name", false) && file_exists(base_path("routes/" . base_config()->get("news", "route-name", false) . ".php"))) {
             $this->loadRoutesFrom(base_path("routes/" . base_config()->get("news", "route-name", false) . ".php"));

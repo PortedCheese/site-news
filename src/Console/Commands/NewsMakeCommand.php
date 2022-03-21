@@ -40,7 +40,7 @@ class NewsMakeCommand extends BaseConfigModelCommand
 
     protected $controllers = [
         "Admin" => ["NewsController", "NewsSectionController"],
-        "Site" => ["NewsController"],
+        "Site" => ["NewsController", "NewsSectionController"],
     ];
 
     protected $configName = "news";
