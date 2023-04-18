@@ -21,6 +21,7 @@ class News extends Model
         'slug',
         'description',
         'short',
+        'fixed',
         'user_id',
     ];
     protected $metaKey = "news";

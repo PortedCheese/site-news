@@ -34,7 +34,8 @@ class NewsController extends Controller
             $title = trim($query->get('title'));
             $news->where('title', 'LIKE', "%$title%");
         }
-        $news->orderBy('created_at', 'desc');
+        $news->orderBy('fixed', 'desc');
+        $news->orderBy('published_at', 'desc');
         return view("site-news::admin.news.index", [
             'newsList' => $news->paginate(self::PAGER)->appends($request->input()),
             'query' => $query,
@@ -235,5 +236,21 @@ class NewsController extends Controller
         return redirect()
             ->back()
             ->with("Статус публикации изменен");
+    }
+
+    /**
+     * Изменить фиксацию в списке.
+     *
+     * @param News $news
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function fix(News $news)
+    {
+        $news->fixed = $news->fixed ? null : 1;
+        $news->save();
+
+        return redirect()
+            ->back()
+            ->with("Фиксация изменена");
     }
 }

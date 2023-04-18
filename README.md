@@ -15,6 +15,12 @@
                           {--policies : Export and create rules}
 
 ### Versions
+    v2.1: 
+        - Добавлена фиксация в верху списка к Новости. Изменена сортировка результата списка новостей в контроллерах админ.панели и сайта.
+    Обновление:
+        - php artisan migrate
+        -
+
     v2.0:
         - Добавлены секции новостей (news_sections)
         - Новость можно соотнести с несколькими секциями
@@ -25,11 +31,9 @@
     Обновление:
         - php artisan migrate
         - php artisan make:news --models (создать модели секций)
-        - php artisan make:news --controllera (создать контроллеры секций)
+        - php artisan make:news --controllers (создать контроллеры секций)
         - php artisan make:news --config (обновить конфиг если необходимо)
-        - php artisan make:news --policies (создать политики секций)
-        - --only-default создаст политики по умолчанию 
-      
+        - php artisan make:news --policies (создать политики секций) --only-default создаст политики по умолчанию
         
     v1.4.0:
         - Изменен статус публикации (теперь вместо published находится published_at и хранится дата)

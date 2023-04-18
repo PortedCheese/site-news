@@ -68,8 +68,21 @@
                                             </div>
                                             @can("publish", \App\News::class)
                                                 <div class="btn-group btn-group-sm">
-                                                    <button type="button" class="btn btn-{{ $item->published_at ? "success" : "secondary" }}" data-confirm="{{ "publish-form-{$item->id}" }}">
+                                                    <button type="button"
+                                                            class="btn btn-{{ $item->published_at ? "success" : "secondary" }}"
+                                                            data-confirm="{{ "publish-form-{$item->id}" }}"
+                                                            title="Статус публикации">
                                                         <i class="fas fa-toggle-{{ $item->published_at ? "on" : "off" }}"></i>
+                                                    </button>
+                                                </div>
+                                            @endcan
+                                            @can("update", \App\News::class)
+                                                <div class="btn-group btn-group-sm">
+                                                    <button type="button"
+                                                            class="btn btn-{{ $item->fixed ? "primary" : "light" }}"
+                                                            data-confirm="{{ "fix-form-{$item->id}" }}"
+                                                            title="Фиксировать в списке">
+                                                        <i class="far {{ $item->fixed ? "fa-check-circle" : "fa-circle" }}"></i>
                                                     </button>
                                                 </div>
                                             @endcan
@@ -79,6 +92,19 @@
                                                 <template>
                                                     <form action="{{ route('admin.news.publish', ['news' => $item]) }}"
                                                           id="publish-form-{{ $item->id }}"
+                                                          class="btn-group"
+                                                          method="post">
+                                                        @csrf
+                                                        @method("put")
+                                                    </form>
+                                                </template>
+                                            </confirm-form>
+                                        @endcan
+                                        @can("update", \App\News::class)
+                                            <confirm-form :id="'{{ "fix-form-{$item->id}" }}'" text="Это изменит порядок публикации в разделе" confirm-text="Да, изменить!">
+                                                <template>
+                                                    <form action="{{ route('admin.news.fix', ['news' => $item]) }}"
+                                                          id="fix-form-{{ $item->id }}"
                                                           class="btn-group"
                                                           method="post">
                                                         @csrf

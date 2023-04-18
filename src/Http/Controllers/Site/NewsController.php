@@ -19,6 +19,7 @@ class NewsController extends Controller
     {
         $collection = News::query()
             ->whereNotNull("published_at")
+            ->orderBy('fixed', 'desc')
             ->orderBy('published_at', 'desc');
         $news = $collection
             ->paginate(base_config()->get("news", "pager", 20))

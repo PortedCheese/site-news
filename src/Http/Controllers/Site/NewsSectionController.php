@@ -18,7 +18,10 @@ class NewsSectionController extends Controller
      */
     public function show(Request $request, NewsSection $section)
     {
-        $news = $section->news()->whereNotNull('published_at')->orderByDesc('created_at');
+        $news = $section->news()
+            ->whereNotNull('published_at')
+            ->orderByDesc('fixed')
+            ->orderByDesc('published_at');
         return view("site-news::site.news.sections.show", [
            "newsSection" => $section,
            "news" => $news
