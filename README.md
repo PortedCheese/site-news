@@ -15,6 +15,12 @@
                           {--policies : Export and create rules}
 
 ### Versions
+    v2.2.0 - Возможность отложенной публикации
+        Проверить переорпределение:
+        - модели News (fillable, creating)
+        - шаблонов админ панели (create, edit, index, show)
+        - контроллера Admin/NewsController (функций create, upadte & валидаторов )
+        - контроллеров Site/NewsController, Site/NewsSectionController
     v2.1.2 - 2.1.4 - Обновлен шаблон sections-btns.blade.php
     v2.1.1 - base-settings 4.0
     v2.1: 

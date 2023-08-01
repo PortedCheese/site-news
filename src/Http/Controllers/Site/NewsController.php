@@ -19,6 +19,7 @@ class NewsController extends Controller
     {
         $collection = News::query()
             ->whereNotNull("published_at")
+            ->where('published_at', '<', now())
             ->orderBy('fixed', 'desc')
             ->orderBy('published_at', 'desc');
         $news = $collection
@@ -37,7 +38,7 @@ class NewsController extends Controller
      */
     public function show(News $news)
     {
-        if (empty($news->published_at)) {
+        if (empty($news->published_at) || $news->published_at > now(datehelper()->timeZone)) {
             abort(404);
         }
         $newsData = $news->getFullData();

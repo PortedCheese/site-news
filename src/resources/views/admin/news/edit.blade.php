@@ -113,6 +113,22 @@
                         @endisset
                     </div>
 
+                    <div class="form-group">
+                        <label for="piblished_at">Дата публикации</label>
+                        <input type="datetime-local"
+                               step="1"
+                               id="publishedAt"
+                               value="{{ old('published_at') ? old('published_at') : $news->published_at }}"
+                               name="published_at"
+                               class="form-control{{ $errors->has('published_at') ? ' is-invalid' : '' }}"
+                        >
+                        @if ($errors->has('published_at'))
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $errors->first('published_at') }}</strong>
+                            </span>
+                        @endif
+                    </div>
+
                     <div class="btn-group mt-2"
                          role="group">
                         <button type="submit" class="btn btn-success">Обновить</button>

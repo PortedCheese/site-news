@@ -20,6 +20,7 @@ class NewsSectionController extends Controller
     {
         $news = $section->news()
             ->whereNotNull('published_at')
+            ->where('published_at', '<', now())
             ->orderByDesc('fixed')
             ->orderByDesc('published_at');
         return view("site-news::site.news.sections.show", [

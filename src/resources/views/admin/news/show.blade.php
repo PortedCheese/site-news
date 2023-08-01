@@ -72,6 +72,14 @@
                 </div>
             </div>
         @endif
+        <div class="card mb-2">
+            <div class="card-header">
+                <h5 class="card-title">Дата публикации</h5>
+            </div>
+            <div class="card-body">
+                {!! $news->published_at ? $news->published_at : "Не задана" !!}
+            </div>
+        </div>
     </div>
     <div class="col-12 d-none">
         <div>

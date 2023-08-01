@@ -23,6 +23,7 @@ class News extends Model
         'short',
         'fixed',
         'user_id',
+        'published_at',
     ];
     protected $metaKey = "news";
     protected $imageKey = "main_image";
@@ -36,10 +37,10 @@ class News extends Model
             if (Auth::check()) {
                 $model->user_id = Auth::user()->id;
             }
-            $model->published_at = now();
         });
 
         static::updated(function (\App\News $model) {
+
             // Забыть кэш.
             $model->forgetCache();
         });
@@ -73,8 +74,9 @@ class News extends Model
         return datehelper()->changeTz($value);
     }
 
+
     /**
-     * Изменить дату создания.
+     * Изменить дату публикации.
      *
      * @param $value
      * @return string

@@ -5,6 +5,7 @@ namespace PortedCheese\SiteNews\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Meta;
 use App\News;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use PortedCheese\SiteNews\Models\NewsSection;
@@ -65,6 +66,11 @@ class NewsController extends Controller
     {
         $this->storeValidator($request->all());
         $news = News::create($request->all());
+        // Перевод с локальнного времени
+        if ($news->published_at){
+            $news->published_at = $this->dateTimeLocalToUTC($news->published_at);
+            $news->save();
+        }
         $news->uploadImage($request, "news/main");
         $news->updateSections($request->all(), true);
         return redirect()
@@ -84,11 +90,13 @@ class NewsController extends Controller
             "slug" => ["nullable", "min:2", "max:100", "unique:news,slug"],
             "image" => ["nullable", "image"],
             "description" => ["required"],
+            "published_at" => ["nullable", "min:10", "max:20"],
         ], [], [
             "title" => "Заголовок",
             "slug" => "Адресная строка",
             "image" => "Главное изображение",
             "description" => "Текст новости",
+            "published_at" => "Дата публикации",
         ])->validate();
     }
 
@@ -130,6 +138,11 @@ class NewsController extends Controller
     {
         $this->updateValidator($request->all(), $news);
         $news->update($request->all());
+        // Перевод с локальнного времени 
+        if ($news->published_at){
+            $news->published_at = $this->dateTimeLocalToUTC($news->published_at);
+            $news->save();
+        }
         $news->uploadImage($request, "news/main");
         $news->updateSections($request->all(), true);
 
@@ -152,11 +165,13 @@ class NewsController extends Controller
             "slug" => ["nullable", "min:2", "max:100", "unique:news,slug,{$id}"],
             "image" => ["nullable", "image"],
             "description" => ["required"],
+            "published_at" => ["nullable", "min:10", "max:20"],
         ], [], [
             'title' => 'Заголовок',
             "slug" => "Адресная строка",
             'main_image' => 'Главное изображение',
             "description" => "Текст новости",
+            "published_at" => "Дата публикации",
         ])->validate();
     }
 
@@ -230,7 +245,7 @@ class NewsController extends Controller
      */
     public function publish(News $news)
     {
-        $news->published_at = $news->published_at ? null : now();
+        $news->published_at = $news->published_at ? null : date('Y-m-d H:i');
         $news->save();
 
         return redirect()
@@ -252,5 +267,16 @@ class NewsController extends Controller
         return redirect()
             ->back()
             ->with("Фиксация изменена");
+    }
+
+    /**
+     * Получить дату публикации в UTC из  datetime-local(+3) input & TZ(+3)
+     *
+     * @return string
+     */
+    protected function dateTimeLocalToUTC($string)
+    {
+        $carbon = Carbon::createFromFormat("Y-m-d H:i:s",  $string)->timezone("-6");
+        return $carbon->toDateTimeString();
     }
 }

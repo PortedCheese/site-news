@@ -69,9 +69,10 @@
                                             @can("publish", \App\News::class)
                                                 <div class="btn-group btn-group-sm">
                                                     <button type="button"
-                                                            class="btn btn-{{ $item->published_at ? "success" : "secondary" }}"
+                                                            class="btn
+                                                            btn-{{ ! $item->published_at  ? "secondary" : ($item->published_at < now(datehelper()->timeZone) ? "success" : "warning") }}"
                                                             data-confirm="{{ "publish-form-{$item->id}" }}"
-                                                            title="Статус публикации">
+                                                            title="{{ ! $item->published_at  ? "Опубликовать" : $item->published_at }}">
                                                         <i class="fas fa-toggle-{{ $item->published_at ? "on" : "off" }}"></i>
                                                     </button>
                                                 </div>
