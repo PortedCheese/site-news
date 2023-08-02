@@ -8,7 +8,6 @@ use App\News;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use PortedCheese\SiteNews\Models\NewsSection;
 
 class NewsController extends Controller
 {
@@ -270,13 +269,15 @@ class NewsController extends Controller
     }
 
     /**
-     * Получить дату публикации в UTC из  datetime-local(+3) input & TZ(+3)
+     * Получить дату публикации в UTC из  datetime-local(+3) input & TZ (+3)
      *
      * @return string
      */
     protected function dateTimeLocalToUTC($string)
     {
-        $carbon = Carbon::createFromFormat("Y-m-d H:i:s",  $string)->timezone("-6");
+        $carbon = Carbon::createFromFormat("Y-m-d H:i:s",  $string)->timezone(datehelper()->timeZone);
+        $utcInt = - intval($carbon->format('O'))*2;
+        $carbon = $carbon->timezone("$utcInt");
         return $carbon->toDateTimeString();
     }
 }

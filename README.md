@@ -15,7 +15,7 @@
                           {--policies : Export and create rules}
 
 ### Versions
-    v2.2.0 - Возможность отложенной публикации
+    v2.2.0 - 2.0.1 - Возможность отложенной публикации
         Проверить переорпределение:
         - модели News (fillable, creating)
         - шаблонов админ панели (create, edit, index, show)
