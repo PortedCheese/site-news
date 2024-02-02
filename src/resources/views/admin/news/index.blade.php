@@ -32,7 +32,7 @@
                             <th>Заголовок</th>
                             <th>Slug</th>
                             <th>Краткое описание</th>
-                            @canany(["view", "update", "delete"], \App\News::class)
+                            @canany(["view", "update", "delete", "publish"], \App\News::class)
                                 <th>Действия</th>
                             @endcanany
                         </tr>

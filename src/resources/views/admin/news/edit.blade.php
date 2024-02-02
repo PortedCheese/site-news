@@ -65,9 +65,14 @@
                     <div class="form-group">
                         @if($news->image)
                             <div class="d-inline-block">
-                                <img src="{{ route('imagecache', ['template' => 'small', 'filename' => $news->image->file_name]) }}"
-                                     class="rounded mb-2"
-                                     alt="{{ $news->image->name }}">
+                                @pic([
+                                "image" =>  $news->image,
+                                "template" => "small",
+                                "grid" => [
+                                ],
+                                "imgClass" => "rounded mb-2",
+                                ])
+
                                 <button type="button" class="close ml-1" data-confirm="{{ "delete-form-{$news->id}" }}">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
@@ -114,7 +119,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="piblished_at">Дата публикации</label>
+                        <label for="publishedAt">Дата публикации</label>
                         <input type="datetime-local"
                                step="1"
                                id="publishedAt"

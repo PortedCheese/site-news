@@ -108,7 +108,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="piblished_at">Дата публикации</label>
+                        <label for="publishedAt">Дата публикации</label>
                         <input type="datetime-local"
                                step="60"
                                id="publishedAt"
