@@ -1,4 +1,5 @@
 @if (! empty(base_config()->get("news", "useSections", false)))
+@if (! empty(base_config()->get("news", "useSections", false)))
     <div class="col-12">
         <ul class="list-inline news-sections">
             @foreach ($sections as $section)

@@ -33,7 +33,7 @@
                 </p>
                 <a href="{{ route('site.news.index') }}"
                    class="btn btn-primary btn-block mt-4 px-4 py-2">
-                    Закрыть новость
+                    Закрыть
                 </a>
             </div>
         </div>
@@ -46,7 +46,6 @@
     </div>
     @if($gallery->count())
         <div class="col-12">
-            <h3>Галерея новости</h3>
             @gallery([
                 'gallery' => $gallery,
                 'lightbox' => 'news',

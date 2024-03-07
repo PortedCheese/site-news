@@ -1,7 +1,7 @@
 @extends('admin.layout')
 
-@section('page-title', 'Добавить новость - ')
-@section('header-title', 'Добавить новость')
+@section('page-title', base_config()->get("news","stitle").' - Добавить')
+@section('header-title', ' Добавить '.base_config()->get("news","stitle"))
 
 @section('admin')
     @include("site-news::admin.news.pills")
@@ -54,7 +54,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="description">Текст новости <span class="text-danger">*</span></label>
+                        <label for="description">Текст<span class="text-danger">*</span></label>
                         <textarea class="form-control{{ $errors->has('description') ? ' is-invalid' : '' }}"
                                   name="description"
                                   id="ckDescription"

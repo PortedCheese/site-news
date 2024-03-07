@@ -1,4 +1,17 @@
 <div class="form-group">
+    <label for="stitle">Название раздела</label>
+    <input type="text"
+           id="stitle"
+           name="data-stitle"
+           value="{{ old("stitle", base_config()->get($name, "stitle", "Новости")) }}"
+           class="form-control @error("data-stitle") is-invalid @enderror">
+    @error("data-stitle")
+    <div class="invalid-feedback" role="alert">
+        {{ $message }}
+    </div>
+    @enderror
+</div>
+<div class="form-group">
     <label for="path">Путь</label>
     <input type="text"
            id="path"

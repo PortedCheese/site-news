@@ -1,8 +1,8 @@
 @extends('layouts.boot')
 
-@section('page-title', "Новости - ")
+@section('page-title', base_config()->get("news","stitle")." - ")
 
-@section('header-title', "Новости")
+@section('header-title', base_config()->get("news","stitle"))
 
 @section('content')
     @includeIf("site-news::site.news.sections.list")

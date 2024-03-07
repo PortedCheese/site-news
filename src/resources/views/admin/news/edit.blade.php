@@ -1,6 +1,6 @@
 @extends('admin.layout')
 
-@section('page-title', 'Редактировать новость - ')
+@section('page-title', base_config()->get("news","stitle").' редактировать - ')
 @section('header-title', "Редактировать {$news->title}")
 
 @section('admin')
@@ -55,7 +55,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="ckDescription">Текст новости</label>
+                        <label for="ckDescription">Текст</label>
                         <textarea class="form-control"
                                   name="description"
                                   id="ckDescription"

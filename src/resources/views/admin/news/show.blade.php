@@ -1,7 +1,7 @@
 @extends('admin.layout')
 
-@section('page-title', 'Новость - ')
-@section('header-title', "Новость {$news->title}")
+@section('page-title', base_config()->get("news","stitle").' - ')
+@section('header-title', "{$news->title}")
 
 @section('admin')
     @include("site-news::admin.news.pills")

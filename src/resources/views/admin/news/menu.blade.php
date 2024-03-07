@@ -12,13 +12,13 @@
                     @isset($ico)
                         <i class="{{ $ico }}"></i>
                     @endisset
-                    <span>Новости</span>
+                    <span>{{ base_config()->get("news","stitle") }}</span>
                 </a>
                 <div id="collapse-news-sections-menu" class="collapse{{ $active ? " show" : "" }}" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a href="{{ route('admin.news.index') }}"
                            class="collapse-item{{ strstr($currentRoute, 'admin.news.') !== FALSE  ? " active" : "" }}">
-                            <span>Новости</span>
+                            <span>{{ base_config()->get("news","stitle") }}</span>
                         </a>
                         <a href="{{ route('admin.newsSections.index') }}"
                            class="collapse-item{{strstr($currentRoute, 'admin.newsSections') !== FALSE ? ' active' : '' }}">
