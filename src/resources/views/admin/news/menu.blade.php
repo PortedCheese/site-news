@@ -39,12 +39,12 @@
                     @isset($ico)
                         <i class="{{ $ico }}"></i>
                     @endisset
-                    Новости
+                    {{ base_config()->get("news","stitle") }}
                 </a>
                 <div class="dropdown-menu" aria-labelledby="user-dropdown">
                     <a href="{{ route('admin.news.index') }}"
                        class="dropdown-item">
-                        Новости
+                        {{ base_config()->get("news","stitle") }}
                     </a>
                     <a href="{{ route('admin.newsSections.index') }}"
                        class="dropdown-item">
@@ -63,7 +63,7 @@
                     @isset($ico)
                         <i class="{{ $ico }}"></i>
                     @endisset
-                    <span>Новости</span>
+                    <span>{{ base_config()->get("news","stitle") }}</span>
                 </a>
             </li>
         @endcan
