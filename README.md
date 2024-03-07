@@ -15,7 +15,9 @@
                           {--policies : Export and create rules}
 
 ### Versions
-    v2.2.0 - 2.0.1 - Возможность отложенной публикации
+    v2.2.3  - Настройка названия раздела на сайте: stitle
+    v2.2.2  - fix admin blades (imagecache route)
+    v2.2.0 - 2.2.1 - Возможность отложенной публикации
         Проверить переорпределение:
         - модели News (fillable, creating)
         - шаблонов админ панели (create, edit, index, show)
