@@ -9,6 +9,12 @@
                     </li>
                 </a>
             @endforeach
+            <a href="{{ route("site.news.index") }}"
+               class="btn  py-2 my-1 news-sections__link{{ ($currentRoute === "site.news.index") ? " disabled" : "" }}">
+                <li class="news-sections__item">
+                    Смотреть все
+                </li>
+            </a>
         </ul>
     </div>
 @endif
