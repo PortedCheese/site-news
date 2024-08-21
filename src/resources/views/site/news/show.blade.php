@@ -46,11 +46,12 @@
     </div>
     @if($gallery->count())
         <div class="col-12">
-            @gallery([
+            @galleryLazy([
                 'gallery' => $gallery,
                 'lightbox' => 'news',
                 'template' => 'sm-grid-6',
                 'grid' => [
+                    'xxl-grid-3' => 1400,
                     'lg-grid-3' => 992,
                     'md-grid-6' => 768,
                 ],

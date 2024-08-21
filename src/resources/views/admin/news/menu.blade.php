@@ -5,8 +5,8 @@
             <li class="nav-item dropdown{{ $active ? ' active' : '' }}">
                 <a class="nav-link"
                    href="#"
-                   data-toggle="collapse"
-                   data-target="#collapse-news-sections-menu"
+                   data-bs-toggle="collapse"
+                   data-bs-target="#collapse-news-sections-menu"
                    aria-controls="#collapse-news-sections-menu"
                    aria-expanded="{{ $active ? "true" : "false" }}">
                     @isset($ico)

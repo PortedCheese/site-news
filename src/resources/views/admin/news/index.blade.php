@@ -9,7 +9,7 @@
         <div class="card">
             <div class="card-header">
                 <form action="{{ route($currentRoute) }}"
-                      class="form-inline"
+                      class="d-lg-flex"
                       method="get">
                     <label class="sr-only" for="title">Заголовок</label>
                     <input type="text"

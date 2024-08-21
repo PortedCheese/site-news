@@ -4,6 +4,7 @@
             'image' => $news->image,
             'template' => "sm-grid-12",
             'grid' => [
+                "xxl-grid-{$grid}" => 1400,
                 "lg-grid-{$grid}" => 992,
                 'md-grid-6' => 768,
             ],
