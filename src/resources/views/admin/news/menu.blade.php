@@ -14,7 +14,7 @@
                     @endisset
                     <span>{{ base_config()->get("news","stitle") }}</span>
                 </a>
-                <div id="collapse-news-sections-menu" class="collapse{{ $active ? " show" : "" }}" data-parent="#accordionSidebar">
+                <div id="collapse-news-sections-menu" class="collapse{{ $active ? " show" : "" }}" data-bs-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a href="{{ route('admin.news.index') }}"
                            class="collapse-item{{ strstr($currentRoute, 'admin.news.') !== FALSE  ? " active" : "" }}">
@@ -33,7 +33,7 @@
                    href="#"
                    id="user-dropdown"
                    role="button"
-                   data-toggle="dropdown"
+                   data-bs-toggle="dropdown"
                    aria-haspopup="true"
                    aria-expanded="false">
                     @isset($ico)
