@@ -55,7 +55,7 @@
 
                     <div class="form-group">
                         <label for="description">Текст<span class="text-danger">*</span></label>
-                        <textarea class="form-control{{ $errors->has('description') ? ' is-invalid' : '' }}"
+                        <textarea class="form-control{{ $errors->has('description') ? ' is-invalid' : '' }} tiny"
                                   name="description"
                                   id="ckDescription"
                                   rows="3">

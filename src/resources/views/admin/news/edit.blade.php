@@ -56,7 +56,7 @@
 
                     <div class="form-group">
                         <label for="ckDescription">Текст</label>
-                        <textarea class="form-control"
+                        <textarea class="form-control tiny"
                                   name="description"
                                   id="ckDescription"
                                   rows="3">{{ old('description') ? old('description') : $news->description }}</textarea>
